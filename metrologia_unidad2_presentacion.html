@@ -1,0 +1,3376 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Metrología - Unidad II: Normalización | Material de Estudio Completo</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root{ 
+  --base-font:16px; 
+  --bg:#1a1f2e;
+  --panel:#2a3142ee;
+  --ink:#ffffff;
+  --muted:#94a3b8;
+  --primary:#6496fa;
+  --secondary:#00d4aa;
+  --accent:#ffd60a;
+  --grad-primary: linear-gradient(135deg, #6496fa 0%, #00d4aa 100%);
+  --sabes-orange: #e39a27;
+  --sabes-blue: #5ca8eb;
+  --team1: #ef4444;
+  --team2: #f59e0b;
+  --team3: #10b981;
+  --team4: #3b82f6;
+}
+
+[data-theme="light"] {
+  --bg:#f8fafc;
+  --panel:#ffffff;
+  --ink:#1e293b;
+  --muted:#475569;
+  --primary:#2563eb;
+  --secondary:#059669;
+  --accent:#d97706;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100vh;font-size:var(--base-font);line-height:1.65;}
+
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  padding:0;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
+}
+
+.banner-sabes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 90px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(120deg, #b56c13 0%, #e39a27 25%, #5ca8eb 70%, #a7d3f9 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  padding: 0 30px;
+}
+
+.banner-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.team-selector {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 12px;
+}
+
+.team-label {
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.team-select {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: white;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 250px;
+}
+
+/* Banner de información del equipo presentador - COMPACTO */
+.team-info-banner {
+  position: fixed;
+  top: 94px;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  padding: 8px 30px;
+  z-index: 998;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-bottom: 2px solid rgba(100, 150, 250, 0.2);
+  display: none;
+}
+
+[data-theme="dark"] .team-info-banner {
+  background: rgba(42, 49, 66, 0.98);
+  border-bottom: 2px solid rgba(100, 150, 250, 0.4);
+}
+
+.team-info-banner.active {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideDown 0.4s ease;
+  gap: 20px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.team-info-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.team-info-badge {
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: white;
+  white-space: nowrap;
+}
+
+.team-info-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.team-info-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.team-info-moderator {
+  font-size: 0.85rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.team-info-moderator strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.team-info-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.team-members-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.team-member-chip {
+  background: rgba(100, 150, 250, 0.08);
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  color: var(--ink);
+  border: 1px solid rgba(100, 150, 250, 0.2);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.clear-team-btn {
+  background: rgba(239, 68, 111, 0.08);
+  border: 1.5px solid #ef476f;
+  color: #ef476f;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.clear-team-btn:hover {
+  background: #ef476f;
+  color: white;
+}
+
+.sidebar {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 900;
+  padding: 10px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.left-bar { left: 15px; }
+.right-bar { right: 15px; }
+
+.control-btn {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  background: #f57c00;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  transform: scale(1.15);
+  background: #ff9800;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 90px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(100, 150, 250, 0.2);
+  z-index: 999;
+}
+
+.progress {
+  height: 100%;
+  background: var(--grad-primary);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.progress-indicator {
+  position: fixed;
+  top: 110px;
+  right: 20px;
+  background: rgba(42, 49, 66, 0.9);
+  padding: 10px 20px;
+  border-radius: 20px;
+  z-index: 999;
+  font-weight: 600;
+  color: white;
+}
+
+[data-theme="light"] .progress-indicator {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+}
+
+.nav-controls {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px 25px;
+  border-radius: 50px;
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+[data-theme="dark"] .nav-controls {
+  background: rgba(42, 49, 66, 0.95);
+}
+
+.nav-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 110px;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.nav-btn:disabled {
+  background: #64748b;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.slides-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  padding-top: 94px;
+  transition: padding-top 0.3s ease;
+}
+
+.slides-container.with-team-banner {
+  padding-top: 130px;
+}
+
+.slide {
+  position: absolute;
+  top: 94px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 94px);
+  padding: 40px 100px 140px 100px;
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  transition: top 0.3s ease, height 0.3s ease;
+}
+
+.slides-container.with-team-banner .slide {
+  top: 130px;
+  height: calc(100% - 130px);
+}
+
+.slide.active {
+  display: flex;
+  animation: slideIn 0.6s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-content {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.slide-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.card {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(100, 150, 250, 0.2);
+}
+
+.card h3 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.card h4 {
+  color: var(--secondary);
+  margin: 20px 0 10px 0;
+  font-size: 1.2rem;
+}
+
+.card p, .card li {
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+.card ul, .card ol {
+  margin-left: 25px;
+  margin-top: 10px;
+}
+
+.info-box {
+  background: linear-gradient(135deg, rgba(100, 150, 250, 0.1), rgba(0, 212, 170, 0.1));
+  border-left: 4px solid var(--primary);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.warning-box {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
+  border-left: 4px solid var(--accent);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.success-box {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+  border-left: 4px solid var(--secondary);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.mini-card {
+  background: var(--panel);
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid rgba(100, 150, 250, 0.2);
+  transition: all 0.3s ease;
+}
+
+.mini-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.mini-card h4 {
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: var(--panel);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+th {
+  background: var(--primary);
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-weight: 700;
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid rgba(100, 150, 250, 0.1);
+}
+
+tr:hover {
+  background: rgba(100, 150, 250, 0.05);
+}
+
+.team-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin: 5px;
+}
+
+.team1-badge { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+.team2-badge { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+.team3-badge { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+.team4-badge { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+
+.highlight {
+  background: linear-gradient(135deg, rgba(255, 214, 10, 0.2), rgba(255, 214, 10, 0.1));
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.diagram {
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+  text-align: center;
+  border: 2px dashed rgba(100, 150, 250, 0.3);
+}
+
+.flow-item {
+  background: var(--primary);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  margin: 10px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.arrow {
+  font-size: 2rem;
+  color: var(--primary);
+  margin: 10px;
+}
+
+@media (max-width: 768px) {
+  .slide {
+    padding: 30px 20px 120px 20px;
+  }
+  
+  .slide-title {
+    font-size: 2rem;
+  }
+  
+  .sidebar {
+    display: none;
+  }
+  
+  .grid-2, .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .banner-sabes {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 15px;
+    gap: 8px;
+  }
+  
+  .banner-title {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .team-selector {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .team-select {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .team-info-banner {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 15px;
+    align-items: flex-start;
+  }
+  
+  .team-info-left {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    align-items: flex-start;
+  }
+  
+  .team-info-details {
+    gap: 8px;
+  }
+  
+  .team-info-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .team-members-container {
+    width: 100%;
+  }
+  
+  .team-member-chip {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+  
+  .clear-team-btn {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+  }
+  
+  .slides-container.with-team-banner {
+    padding-top: 180px;
+  }
+  
+  .slides-container.with-team-banner .slide {
+    top: 180px;
+    height: calc(100% - 180px);
+  }
+}
+
+@media print {
+  .banner-sabes, .sidebar, .nav-controls, .progress-bar, .progress-indicator {
+    display: none !important;
+  }
+  
+  .slide {
+    position: relative;
+    page-break-after: always;
+    display: block !important;
+    opacity: 1 !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="banner-sabes">
+  <h1 class="banner-title">🔬 Metrología e Instrumentación - Unidad II: Normalización</h1>
+  <div class="team-selector">
+    <label for="teamSelect" class="team-label">Equipo Presentador:</label>
+    <select id="teamSelect" onchange="selectPresentingTeam()">
+      <option value="">📚 Sin equipo seleccionado</option>
+      <option value="team1">👥 Equipo 1</option>
+      <option value="team2">👥 Equipo 2</option>
+      <option value="team3">👥 Equipo 3</option>
+      <option value="team4">👥 Equipo 4</option>
+    </select>
+  </div>
+</header>
+
+<!-- Banner de información del equipo presentador - COMPACTO -->
+<div class="team-info-banner" id="teamInfoBanner">
+  <div class="team-info-left">
+    <div class="team-info-badge" id="teamBadge">Equipo</div>
+    <div class="team-info-details">
+      <div class="team-info-moderator">
+        👤 <strong id="teamModerator">Moderador</strong>
+      </div>
+    </div>
+  </div>
+  <div class="team-info-right">
+    <div class="team-members-container" id="teamMembersChips"></div>
+    <button class="clear-team-btn" onclick="clearTeamSelection()">✕ Limpiar</button>
+  </div>
+</div>
+
+<div class="progress-bar">
+  <div class="progress" id="progressFill"></div>
+</div>
+
+<div class="progress-indicator" id="progressIndicator">
+  Slide <span id="currentSlide">1</span> de <span id="totalSlides">20</span>
+</div>
+
+<aside class="sidebar left-bar">
+  <button class="control-btn" onclick="toggleTheme()" title="Cambiar tema">
+    <span id="themeIcon">🌙</span>
+  </button>
+  <button class="control-btn" onclick="window.print()" title="Imprimir">
+    🖨️
+  </button>
+</aside>
+
+<aside class="sidebar right-bar">
+  <button class="control-btn" onclick="resetPresentation()" title="Reiniciar">
+    🔄
+  </button>
+  <button class="control-btn" onclick="toggleFullscreen()" title="Pantalla completa">
+    ⛶
+  </button>
+</aside>
+
+<main class="slides-container">
+
+<!-- SLIDE 1: PORTADA -->
+<section class="slide active" data-slide="1">
+  <div class="slide-content">
+    <h1 class="slide-title" style="font-size: 3.5rem;">Unidad II: Normalización</h1>
+    <p class="subtitle">Material Completo de Estudio para Presentaciones Verbales</p>
+    
+    <div class="info-box" style="margin: 40px 0; font-size: 1.1rem;">
+      <h3 style="color: var(--primary); margin-bottom: 15px;">📋 Aprendizaje Esperado:</h3>
+      <p><strong>Reconoce la importancia de la normalización en la manufactura, sujetarse a las normas de producción establecidas y sean una guía para su desarrollo ingenieril</strong></p>
+    </div>
+    
+    <div class="grid-2" style="margin-top: 40px;">
+      <div class="mini-card">
+        <h4>🎯 Instrucciones</h4>
+        <ul style="margin-left: 20px; line-height: 2;">
+          <li>Estudiar TODO el material</li>
+          <li>Cada equipo prepara su presentación</li>
+          <li>Desarrollar todos los temas 2.1 y 2.2</li>
+          <li>Tiempo de estudio + preparación</li>
+        </ul>
+      </div>
+      
+      <div class="mini-card">
+        <h4>📚 Contenido</h4>
+        <ul style="margin-left: 20px; line-height: 2;">
+          <li>2.1 Esquema Mexicano (4 temas)</li>
+          <li>2.2 Organismos (4 temas)</li>
+          <li>Ejemplos y casos prácticos</li>
+          <li>Referencias y recursos</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="grid-2" style="margin-top: 30px;">
+      <div class="card" style="text-align: center; border-color: var(--team1);">
+        <h3 style="color: var(--team1);">👥 Equipo 1</h3>
+        <p style="font-size: 0.95rem; line-height: 1.8;">
+          • Juana Griselda Anguiano Calvillo<br>
+          • Deniel de Haro Segura<br>
+          • Cenobio García Romero<br>
+          • Fátima Hernández Villegas<br>
+          • Eymi Joselin Lucio Rodríguez
+        </p>
+      </div>
+      
+      <div class="card" style="text-align: center; border-color: var(--team2);">
+        <h3 style="color: var(--team2);">👥 Equipo 2</h3>
+        <p style="font-size: 0.95rem; line-height: 1.8;">
+          • Juan Soledad Machuca Hernández<br>
+          • Mayra Jazmín Medellín Márquez<br>
+          • Luis Ernesto Mejía Banda<br>
+          • Perla del Carmen Mejía Cano<br>
+          • Sandy Mendoza Flores
+        </p>
+      </div>
+    </div>
+    
+    <div class="grid-2" style="margin-top: 20px;">
+      <div class="card" style="text-align: center; border-color: var(--team3);">
+        <h3 style="color: var(--team3);">👥 Equipo 3</h3>
+        <p style="font-size: 0.95rem; line-height: 1.8;">
+          • José Manuel Ortiz Chávez<br>
+          • Luis Alejandro Ortiz Ortiz<br>
+          • Jorge Armando Pérez Rangel<br>
+          • Jhonatan Isaac Rocha Salgado<br>
+          • Daisa Guadalupe Rodríguez García
+        </p>
+      </div>
+      
+      <div class="card" style="text-align: center; border-color: var(--team4);">
+        <h3 style="color: var(--team4);">👥 Equipo 4</h3>
+        <p style="font-size: 0.95rem; line-height: 1.8;">
+          • Manuel Eduardo Rodríguez García<br>
+          • Jorge Alberto Rodríguez Padilla<br>
+          • Edgar Rosales Márquez<br>
+          • Rosa Isela Vega Correa<br>
+          • Gemma Yáñez Bernal
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: INTRODUCCIÓN A LA NORMALIZACIÓN -->
+<section class="slide" data-slide="2">
+  <div class="slide-content">
+    <h1 class="slide-title">📋 Introducción a la Normalización</h1>
+    
+    <div class="card">
+      <h3>¿Qué es la Normalización?</h3>
+      <p><span class="highlight">La normalización</span> es la actividad que establece, en relación con problemas actuales o potenciales, disposiciones destinadas a usos comunes y repetidos, con el fin de obtener un nivel de orden óptimo en un contexto dado.</p>
+      
+      <h4>🎯 Definición Técnica (ISO/IEC)</h4>
+      <p>Según la ISO (Organización Internacional de Normalización), la normalización es la <strong>"actividad que tiene por objeto establecer, ante problemas reales o potenciales, disposiciones destinadas a usos comunes y repetidos, con el fin de obtener un nivel de ordenamiento óptimo en un contexto dado"</strong>.</p>
+    </div>
+    
+    <div class="grid-3">
+      <div class="mini-card">
+        <h4>🏭 Simplificación</h4>
+        <p>Reduce la variedad de productos y procesos</p>
+      </div>
+      <div class="mini-card">
+        <h4>🔄 Unificación</h4>
+        <p>Establece criterios comunes de aplicación</p>
+      </div>
+      <div class="mini-card">
+        <h4>📏 Especificación</h4>
+        <p>Define características técnicas precisas</p>
+      </div>
+    </div>
+    
+    <div class="info-box">
+      <h4>💡 Objetivos Principales de la Normalización:</h4>
+      <ul>
+        <li><strong>Simplificación:</strong> Reducir la variedad innecesaria de productos y procedimientos</li>
+        <li><strong>Comunicación:</strong> Facilitar el intercambio de información técnica</li>
+        <li><strong>Economía:</strong> Reducir costos de producción y comercialización</li>
+        <li><strong>Seguridad:</strong> Proteger la vida, salud y medio ambiente</li>
+        <li><strong>Protección al consumidor:</strong> Garantizar la calidad de productos y servicios</li>
+        <li><strong>Eliminación de barreras comerciales:</strong> Facilitar el comercio nacional e internacional</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>🌍 Importancia de la Normalización</h3>
+      <div class="grid-2">
+        <div>
+          <h4>En la Industria:</h4>
+          <ul>
+            <li>Mejora la competitividad</li>
+            <li>Reduce costos de producción</li>
+            <li>Facilita el control de calidad</li>
+            <li>Permite la intercambiabilidad de componentes</li>
+            <li>Optimiza procesos productivos</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Para la Sociedad:</h4>
+          <ul>
+            <li>Protege al consumidor</li>
+            <li>Garantiza la seguridad de productos</li>
+            <li>Facilita el comercio</li>
+            <li>Promueve la innovación</li>
+            <li>Protege el medio ambiente</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3: 2.1.1 FUNDAMENTOS LEGALES -->
+<section class="slide" data-slide="3">
+  <div class="slide-content">
+    <h1 class="slide-title">⚖️ 2.1.1 Fundamentos Legales</h1>
+    
+    <div class="card">
+      <h3>📜 Marco Jurídico de la Normalización en México</h3>
+      <p>El sistema de normalización y metrología en México se sustenta en un marco legal sólido que garantiza su operación, validez y aplicación en todo el territorio nacional.</p>
+      
+      <h4>🏛️ Base Constitucional</h4>
+      <p><strong>Artículo 73, Fracción XVI de la Constitución Política de los Estados Unidos Mexicanos:</strong></p>
+      <div class="info-box">
+        <p>"El Congreso tiene facultad para dictar leyes sobre... pesos y medidas"</p>
+      </div>
+      <p>Este artículo faculta al Congreso de la Unión para legislar en materia de metrología y normalización, estableciendo que es una facultad exclusiva del gobierno federal.</p>
+    </div>
+    
+    <div class="card">
+      <h3>📚 Jerarquía Normativa en México</h3>
+      <div class="diagram">
+        <div class="flow-item" style="background: #dc2626;">1. CONSTITUCIÓN POLÍTICA</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #ea580c;">2. TRATADOS INTERNACIONALES</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #d97706;">3. LEYES FEDERALES</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #ca8a04;">4. REGLAMENTOS</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #65a30d;">5. NORMAS OFICIALES (NOM)</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #16a34a;">6. NORMAS MEXICANAS (NMX)</div>
+      </div>
+    </div>
+    
+    <div class="grid-2">
+      <div class="mini-card">
+        <h4>📖 Leyes Principales</h4>
+        <ul>
+          <li>Ley Federal sobre Metrología y Normalización (LFMN)</li>
+          <li>Ley de Infraestructura de la Calidad</li>
+          <li>Ley Federal de Protección al Consumidor</li>
+          <li>Leyes sectoriales específicas</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h4>📋 Reglamentos</h4>
+        <ul>
+          <li>Reglamento de la LFMN</li>
+          <li>Reglamento de la Ley de Infraestructura de la Calidad</li>
+          <li>Reglamentos específicos por sector</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="success-box">
+      <h4>✅ Importancia de los Fundamentos Legales:</h4>
+      <p>El marco legal garantiza que:</p>
+      <ul>
+        <li>Las normas sean de aplicación obligatoria y uniforme</li>
+        <li>Exista certeza jurídica para empresas y consumidores</li>
+        <li>Se proteja el interés público</li>
+        <li>Se facilite el comercio nacional e internacional</li>
+        <li>Haya mecanismos de vigilancia y sanciones</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>🔍 Autoridades Competentes</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Autoridad</th>
+            <th>Función Principal</th>
+            <th>Ámbito</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Secretaría de Economía</strong></td>
+            <td>Coordinar el sistema de normalización</td>
+            <td>Federal - General</td>
+          </tr>
+          <tr>
+            <td><strong>CONAMER</strong></td>
+            <td>Revisar y aprobar anteproyectos de normas</td>
+            <td>Federal - Mejora Regulatoria</td>
+          </tr>
+          <tr>
+            <td><strong>PROFECO</strong></td>
+            <td>Vigilar cumplimiento y proteger al consumidor</td>
+            <td>Federal - Consumidor</td>
+          </tr>
+          <tr>
+            <td><strong>CENAM</strong></td>
+            <td>Custodiar patrones nacionales de medición</td>
+            <td>Federal - Metrología</td>
+          </tr>
+          <tr>
+            <td><strong>ema</strong></td>
+            <td>Acreditar laboratorios y organismos</td>
+            <td>Federal - Acreditación</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: 2.1.2 LEY FEDERAL SOBRE METROLOGÍA Y NORMALIZACIÓN -->
+<section class="slide" data-slide="4">
+  <div class="slide-content">
+    <h1 class="slide-title">📜 2.1.2 Ley Federal sobre Metrología y Normalización</h1>
+    
+    <div class="card">
+      <h3>📋 La LFMN (Ley Federal sobre Metrología y Normalización)</h3>
+      <p>Publicada en el Diario Oficial de la Federación el <strong>1 de julio de 1992</strong>, última reforma el <strong>1 de julio de 2020</strong>.</p>
+      
+      <div class="info-box">
+        <h4>🎯 Objeto de la Ley (Artículo 1):</h4>
+        <p>La LFMN tiene por objeto:</p>
+        <ol>
+          <li>Establecer el <strong>Sistema General de Unidades de Medida</strong></li>
+          <li>Precisar los conceptos fundamentales sobre <strong>metrología</strong></li>
+          <li>Establecer los requisitos para la <strong>fabricación, importación, reparación, venta, verificación</strong> y uso de los instrumentos para medir</li>
+          <li>Establecer la <strong>obligatoriedad de la medición</strong> en transacciones comerciales</li>
+          <li>Instituir el <strong>Sistema Nacional de Calibración</strong></li>
+          <li>Crear un procedimiento para la <strong>elaboración y aplicación de normas</strong></li>
+          <li>Promover la <strong>concurrencia</strong> de los sectores público, privado, científico y de consumidores</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🔍 Estructura de la LFMN</h3>
+      <p>La ley se divide en dos grandes títulos:</p>
+      
+      <div class="grid-2">
+        <div class="mini-card" style="border-color: var(--primary);">
+          <h4>TÍTULO PRIMERO: METROLOGÍA</h4>
+          <p><strong>Capítulos:</strong></p>
+          <ul>
+            <li>I. Disposiciones Generales</li>
+            <li>II. Del Sistema General de Unidades de Medida</li>
+            <li>III. De los Instrumentos para Medir</li>
+            <li>IV. De la Medición Obligatoria</li>
+            <li>V. Del Sistema Nacional de Calibración</li>
+            <li>VI. De la Acreditación y Aprobación</li>
+          </ul>
+        </div>
+        
+        <div class="mini-card" style="border-color: var(--secondary);">
+          <h4>TÍTULO SEGUNDO: NORMALIZACIÓN</h4>
+          <p><strong>Capítulos:</strong></p>
+          <ul>
+            <li>I. Disposiciones Generales</li>
+            <li>II. De las Normas</li>
+            <li>III. De la Evaluación de la Conformidad</li>
+            <li>IV. De los Organismos de Normalización</li>
+            <li>V. Del Procedimiento para la Elaboración de Normas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>⚙️ Ámbitos de Aplicación de la Metrología</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Ámbito</th>
+            <th>Definición</th>
+            <th>Ejemplos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Metrología Científica</strong></td>
+            <td>Investigación y desarrollo de patrones primarios</td>
+            <td>CENAM, laboratorios de investigación, universidades</td>
+          </tr>
+          <tr>
+            <td><strong>Metrología Industrial</strong></td>
+            <td>Asegurar la calidad en procesos productivos</td>
+            <td>Control de calidad, calibración de equipos, manufactura</td>
+          </tr>
+          <tr>
+            <td><strong>Metrología Legal</strong></td>
+            <td>Proteger al consumidor en transacciones comerciales</td>
+            <td>Básculas, bombas de gasolina, taxímetros, medidores de luz</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="card">
+      <h3>📊 Sistema General de Unidades de Medida</h3>
+      <p>La LFMN adopta el <span class="highlight">Sistema Internacional de Unidades (SI)</span> como sistema oficial de México.</p>
+      
+      <div class="grid-3">
+        <div class="mini-card">
+          <h4>Unidades Base</h4>
+          <ul>
+            <li>Metro (m) - longitud</li>
+            <li>Kilogramo (kg) - masa</li>
+            <li>Segundo (s) - tiempo</li>
+            <li>Amperio (A) - corriente</li>
+            <li>Kelvin (K) - temperatura</li>
+            <li>Mol (mol) - cantidad</li>
+            <li>Candela (cd) - intensidad</li>
+          </ul>
+        </div>
+        
+        <div class="mini-card">
+          <h4>Unidades Derivadas</h4>
+          <ul>
+            <li>Newton (N) - fuerza</li>
+            <li>Pascal (Pa) - presión</li>
+            <li>Joule (J) - energía</li>
+            <li>Watt (W) - potencia</li>
+            <li>Volt (V) - potencial</li>
+            <li>Ohm (Ω) - resistencia</li>
+            <li>Hertz (Hz) - frecuencia</li>
+          </ul>
+        </div>
+        
+        <div class="mini-card">
+          <h4>Prefijos SI</h4>
+          <ul>
+            <li>kilo (k) = 10³</li>
+            <li>mega (M) = 10⁶</li>
+            <li>giga (G) = 10⁹</li>
+            <li>mili (m) = 10⁻³</li>
+            <li>micro (μ) = 10⁻⁶</li>
+            <li>nano (n) = 10⁻⁹</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="warning-box">
+      <h4>⚠️ Sanciones por Incumplimiento:</h4>
+      <p>La LFMN establece sanciones que pueden incluir:</p>
+      <ul>
+        <li>Multas de hasta 10,000 veces el salario mínimo</li>
+        <li>Clausura temporal o definitiva</li>
+        <li>Arresto administrativo hasta por 36 horas</li>
+        <li>Decomiso de instrumentos no conformes</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>🔗 Sistema Nacional de Calibración (SNC)</h3>
+      <p>Conjunto de instituciones y entidades acreditadas para realizar calibraciones con trazabilidad a patrones nacionales.</p>
+      
+      <div class="info-box">
+        <h4>Objetivos del SNC:</h4>
+        <ul>
+          <li>Establecer la <strong>trazabilidad metrológica</strong> de las mediciones</li>
+          <li>Mantener y custodiar los <strong>patrones nacionales de medición</strong></li>
+          <li>Proporcionar <strong>servicios de calibración</strong> confiables</li>
+          <li>Apoyar la <strong>competitividad industrial</strong> mediante mediciones precisas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: 2.1.3 NORMAS OFICIALES MEXICANAS (NOM) -->
+<section class="slide" data-slide="5">
+  <div class="slide-content">
+    <h1 class="slide-title">🏛️ 2.1.3 Normas Oficiales Mexicanas (NOM)</h1>
+    
+    <div class="card">
+      <h3>📋 ¿Qué es una NOM?</h3>
+      <div class="info-box">
+        <p><strong>Definición (Artículo 3, Fracción XI de la LFMN):</strong></p>
+        <p>"La regulación técnica de observancia obligatoria expedida por las dependencias competentes, conforme a las finalidades establecidas en el artículo 40, que establece reglas, especificaciones, atributos, directrices, características o prescripciones aplicables a un producto, proceso, instalación, sistema, actividad, servicio o método de producción u operación, así como aquellas relativas a terminología, simbología, embalaje, marcado o etiquetado y las que se refieran a su cumplimiento o aplicación."</p>
+      </div>
+    </div>
+    
+    <div class="grid-3">
+      <div class="mini-card">
+        <h4>✅ Obligatorias</h4>
+        <p>Su cumplimiento es <strong>OBLIGATORIO</strong> en todo el territorio nacional</p>
+      </div>
+      <div class="mini-card">
+        <h4>🏛️ Gubernamentales</h4>
+        <p>Expedidas por <strong>dependencias federales</strong></p>
+      </div>
+      <div class="mini-card">
+        <h4>⚖️ Justificadas</h4>
+        <p>Basadas en <strong>interés público</strong></p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🎯 Finalidades de las NOM (Artículo 40 LFMN)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Finalidad</th>
+            <th>Descripción</th>
+            <th>Ejemplo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>I. Información comercial</strong></td>
+            <td>Garantizar información veraz al consumidor</td>
+            <td>NOM-050-SCFI (Etiquetado de productos)</td>
+          </tr>
+          <tr>
+            <td><strong>II. Salud</strong></td>
+            <td>Proteger la vida y salud humana, animal y vegetal</td>
+            <td>NOM-251-SSA1 (Prácticas de higiene)</td>
+          </tr>
+          <tr>
+            <td><strong>III. Seguridad</strong></td>
+            <td>Prevenir riesgos a personas o bienes</td>
+            <td>NOM-001-SEDE (Instalaciones eléctricas)</td>
+          </tr>
+          <tr>
+            <td><strong>IV. Medio ambiente</strong></td>
+            <td>Proteger el equilibrio ecológico</td>
+            <td>NOM-052-SEMARNAT (Residuos peligrosos)</td>
+          </tr>
+          <tr>
+            <td><strong>V. Trabajo</strong></td>
+            <td>Preservar recursos naturales</td>
+            <td>NOM-017-STPS (Equipo de protección personal)</td>
+          </tr>
+          <tr>
+            <td><strong>VI. Economía</strong></td>
+            <td>Evitar prácticas engañosas en comercio</td>
+            <td>NOM-024-SCFI (Transacciones comerciales)</td>
+          </tr>
+          <tr>
+            <td><strong>VII. Metrología</strong></td>
+            <td>Armonizar criterios de medición</td>
+            <td>NOM-010-SCFI (Instrumentos de medición)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="card">
+      <h3>📝 Estructura de una NOM</h3>
+      <div class="grid-2">
+        <div>
+          <h4>Elementos Obligatorios:</h4>
+          <ol>
+            <li><strong>Prefacio:</strong> Datos generales de la norma</li>
+            <li><strong>Índice:</strong> Contenido de la norma</li>
+            <li><strong>Introducción:</strong> Antecedentes y justificación</li>
+            <li><strong>Objetivo:</strong> Propósito de la norma</li>
+            <li><strong>Campo de aplicación:</strong> Alcance y límites</li>
+            <li><strong>Referencias:</strong> Documentos normativos citados</li>
+            <li><strong>Definiciones:</strong> Términos técnicos utilizados</li>
+            <li><strong>Especificaciones:</strong> Requisitos técnicos</li>
+            <li><strong>Muestreo:</strong> Procedimientos (si aplica)</li>
+            <li><strong>Métodos de prueba:</strong> Procedimientos de evaluación</li>
+            <li><strong>Evaluación de conformidad:</strong> Mecanismos de verificación</li>
+            <li><strong>Vigilancia:</strong> Autoridades responsables</li>
+            <li><strong>Bibliografía:</strong> Referencias adicionales</li>
+            <li><strong>Concordancia con normas internacionales</strong></li>
+          </ol>
+        </div>
+        <div>
+          <h4>Nomenclatura:</h4>
+          <div class="info-box">
+            <p><strong>NOM-XXX-YYYY-ZZZZ</strong></p>
+            <ul>
+              <li><strong>NOM:</strong> Norma Oficial Mexicana</li>
+              <li><strong>XXX:</strong> Número consecutivo</li>
+              <li><strong>YYYY:</strong> Siglas de la dependencia</li>
+              <li><strong>ZZZZ:</strong> Año de publicación o aprobación</li>
+            </ul>
+            
+            <h4 style="margin-top: 20px;">Ejemplos:</h4>
+            <ul>
+              <li><strong>NOM-008-SCFI-2002:</strong> Sistema General de Unidades de Medida</li>
+              <li><strong>NOM-030-STPS-2009:</strong> Servicios preventivos de seguridad</li>
+              <li><strong>NOM-001-SEDE-2012:</strong> Instalaciones eléctricas</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📊 Dependencias que Expiden NOM</h3>
+      <div class="grid-3">
+        <div class="mini-card">
+          <h4>SCFI / SE</h4>
+          <p>Secretaría de Economía<br><small>Comercio, metrología, normalización</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>STPS</h4>
+          <p>Trabajo y Previsión Social<br><small>Seguridad e higiene laboral</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>SSA / SALUD</h4>
+          <p>Secretaría de Salud<br><small>Productos sanitarios, alimentos</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>SEMARNAT</h4>
+          <p>Medio Ambiente<br><small>Ecología, residuos</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>SENER</h4>
+          <p>Secretaría de Energía<br><small>Energía, gas, petróleo</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>SCT</h4>
+          <p>Comunicaciones y Transportes<br><small>Transporte, telecomunicaciones</small></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🔄 Proceso de Elaboración de una NOM</h3>
+      <div class="diagram">
+        <div class="flow-item">1. Identificación de necesidad</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">2. Elaboración de anteproyecto</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">3. Publicación en DOF para consulta (60 días)</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">4. Análisis de comentarios</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">5. Aprobación por CONAMER</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">6. Publicación definitiva en DOF</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">7. Entrada en vigor (60-180 días)</div>
+      </div>
+    </div>
+    
+    <div class="success-box">
+      <h4>✅ Ejemplos de NOM Importantes:</h4>
+      <ul>
+        <li><strong>NOM-008-SCFI-2002:</strong> Sistema General de Unidades de Medida</li>
+        <li><strong>NOM-010-SCFI-2017:</strong> Instrumentos de medición</li>
+        <li><strong>NOM-024-SCFI-2013:</strong> Información comercial</li>
+        <li><strong>NOM-051-SCFI/SSA1-2010:</strong> Etiquetado nutricional</li>
+        <li><strong>NOM-001-SEDE-2012:</strong> Instalaciones eléctricas</li>
+        <li><strong>NOM-030-STPS-2009:</strong> Servicios preventivos</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: 2.1.4 NORMAS MEXICANAS (NMX) -->
+<section class="slide" data-slide="6">
+  <div class="slide-content">
+    <h1 class="slide-title">📐 2.1.4 Normas Mexicanas (NMX)</h1>
+    
+    <div class="card">
+      <h3>📋 ¿Qué es una NMX?</h3>
+      <div class="info-box">
+        <p><strong>Definición (Artículo 3, Fracción X de la LFMN):</strong></p>
+        <p>"La que elabore un organismo nacional de normalización, o la Secretaría, en términos de lo dispuesto por el artículo 51-A, que prevé para un uso común y repetido reglas, especificaciones, atributos, métodos de prueba, directrices, características o prescripciones aplicables a un producto, proceso, instalación, sistema, actividad, servicio o método de producción u operación, así como aquellas relativas a terminología, simbología, embalaje, marcado o etiquetado."</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>⚖️ Diferencias entre NOM y NMX</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Característica</th>
+            <th>NOM (Normas Oficiales Mexicanas)</th>
+            <th>NMX (Normas Mexicanas)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Obligatoriedad</strong></td>
+            <td>✅ <strong>OBLIGATORIAS</strong></td>
+            <td>❌ <strong>VOLUNTARIAS</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Quien las elabora</strong></td>
+            <td>Dependencias de gobierno (SE, STPS, SSA, etc.)</td>
+            <td>Organismos Nacionales de Normalización</td>
+          </tr>
+          <tr>
+            <td><strong>Objetivo principal</strong></td>
+            <td>Protección: salud, seguridad, medio ambiente</td>
+            <td>Calidad, competitividad, buenas prácticas</td>
+          </tr>
+          <tr>
+            <td><strong>Sanción por incumplimiento</strong></td>
+            <td>Multas, clausuras, arrestos</td>
+            <td>Ninguna (son voluntarias)</td>
+          </tr>
+          <tr>
+            <td><strong>Campo de aplicación</strong></td>
+            <td>Limitado a lo establecido en Art. 40 LFMN</td>
+            <td>Cualquier sector o actividad</td>
+          </tr>
+          <tr>
+            <td><strong>Consulta pública</strong></td>
+            <td>Obligatoria (mínimo 60 días)</td>
+            <td>Recomendada</td>
+          </tr>
+          <tr>
+            <td><strong>Ejemplos</strong></td>
+            <td>NOM-001-SEDE (Electricidad)<br>NOM-051-SCFI (Etiquetado)</td>
+            <td>NMX-CC-9001-IMNC (ISO 9001)<br>NMX-F-605-NORMEX (Agua)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="grid-2">
+      <div class="mini-card" style="border-color: #dc2626;">
+        <h4>🏛️ NOM</h4>
+        <ul>
+          <li>Obligatorias</li>
+          <li>Enfoque en protección</li>
+          <li>Expedidas por gobierno</li>
+          <li>Sanciones por incumplimiento</li>
+          <li>Proceso regulado estricto</li>
+        </ul>
+      </div>
+      <div class="mini-card" style="border-color: #16a34a;">
+        <h4>📐 NMX</h4>
+        <ul>
+          <li>Voluntarias</li>
+          <li>Enfoque en calidad</li>
+          <li>Elaboradas por ONN</li>
+          <li>Sin sanciones</li>
+          <li>Proceso más flexible</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📝 Estructura y Nomenclatura de las NMX</h3>
+      <div class="info-box">
+        <h4>Nomenclatura:</h4>
+        <p><strong>NMX-X-NNN-ONNCCE-YYYY</strong></p>
+        <ul>
+          <li><strong>NMX:</strong> Norma Mexicana</li>
+          <li><strong>X:</strong> Clave del área técnica (A-Z)</li>
+          <li><strong>NNN:</strong> Número consecutivo</li>
+          <li><strong>ONNCCE:</strong> Organismo que la elaboró</li>
+          <li><strong>YYYY:</strong> Año de aprobación</li>
+        </ul>
+        
+        <h4 style="margin-top: 20px;">Claves de áreas técnicas:</h4>
+        <div class="grid-3" style="margin-top: 10px;">
+          <div><strong>A:</strong> Siderurgia</div>
+          <div><strong>B:</strong> Construcción</div>
+          <div><strong>C:</strong> Transporte</div>
+          <div><strong>CH:</strong> Hidrocarburos</div>
+          <div><strong>D:</strong> Medicamentos</div>
+          <div><strong>E:</strong> Mecánica</div>
+          <div><strong>F:</strong> Alimentos</div>
+          <div><strong>I:</strong> Electricidad</div>
+          <div><strong>J:</strong> Textil</div>
+          <div><strong>K:</strong> Comercial</div>
+          <div><strong>L:</strong> Embalaje</div>
+          <div><strong>N:</strong> Agronomía</div>
+          <div><strong>S:</strong> Minería</div>
+          <div><strong>T:</strong> Telecomunicaciones</div>
+          <div><strong>U:</strong> Protección ambiental</div>
+          <div><strong>V:</strong> Automotriz</div>
+          <div><strong>W:</strong> Petroquímica</div>
+          <div><strong>Z:</strong> Turismo</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🏢 Organismos Nacionales de Normalización (ONN)</h3>
+      <p>Son entidades con reconocimiento de la Secretaría de Economía para elaborar NMX.</p>
+      
+      <div class="grid-3">
+        <div class="mini-card">
+          <h4>ANCE</h4>
+          <p>Asociación de Normalización y Certificación<br><small>Sector eléctrico</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>NORMEX</h4>
+          <p>Asociación Mexicana de Normalización<br><small>Múltiples sectores</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>IMNC</h4>
+          <p>Instituto Mexicano de Normalización<br><small>Sistemas de gestión</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>NYCE</h4>
+          <p>Normalización y Certificación<br><small>Electrónica</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>CNCP</h4>
+          <p>Colegio Nacional de Psicólogos<br><small>Servicios psicológicos</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>ONNCCE</h4>
+          <p>Organismo Nacional de Normalización<br><small>Construcción y edificación</small></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>✅ Ventajas de Implementar NMX</h3>
+      <div class="grid-2">
+        <div>
+          <h4>Para las Empresas:</h4>
+          <ul>
+            <li>Mejora la competitividad</li>
+            <li>Facilita el acceso a mercados</li>
+            <li>Reduce costos operativos</li>
+            <li>Mejora la imagen corporativa</li>
+            <li>Aumenta la satisfacción del cliente</li>
+            <li>Optimiza procesos</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Para los Consumidores:</h4>
+          <ul>
+            <li>Mayor confianza en productos</li>
+            <li>Garantía de calidad</li>
+            <li>Mejor información</li>
+            <li>Comparabilidad de productos</li>
+            <li>Protección indirecta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="success-box">
+      <h4>📚 Ejemplos de NMX Importantes:</h4>
+      <ul>
+        <li><strong>NMX-CC-9001-IMNC-2015:</strong> Sistemas de gestión de calidad (ISO 9001)</li>
+        <li><strong>NMX-CC-10006-IMNC-2018:</strong> Gestión de la calidad en proyectos</li>
+        <li><strong>NMX-SAA-14001-IMNC-2015:</strong> Sistemas de gestión ambiental (ISO 14001)</li>
+        <li><strong>NMX-F-605-NORMEX-2018:</strong> Agua purificada envasada</li>
+        <li><strong>NMX-J-010-ANCE-2005:</strong> Eficiencia energética de refrigeradores</li>
+        <li><strong>NMX-R-025-SCFI-2015:</strong> Igualdad laboral y no discriminación</li>
+      </ul>
+    </div>
+    
+    <div class="warning-box">
+      <h4>💡 ¿Cuándo una NMX puede volverse obligatoria?</h4>
+      <p>Aunque las NMX son voluntarias, pueden volverse <strong>obligatorias</strong> en dos casos:</p>
+      <ol>
+        <li>Cuando una <strong>NOM hace referencia</strong> a una NMX y establece su cumplimiento como requisito</li>
+        <li>Cuando las partes en un <strong>contrato privado acuerdan</strong> cumplir con una NMX específica</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: 2.2.1 CERTIFICACIÓN EN NORMAS TÉCNICAS -->
+<section class="slide" data-slide="7">
+  <div class="slide-content">
+    <h1 class="slide-title">✅ 2.2.1 La Certificación en Normas Técnicas de Competencia Laboral</h1>
+    
+    <div class="card">
+      <h3>📋 ¿Qué es la Certificación?</h3>
+      <div class="info-box">
+        <p><strong>Certificación:</strong> Procedimiento por el cual se asegura que un producto, proceso, sistema o servicio se ajusta a las normas o lineamientos o recomendaciones de organismos dedicados a la normalización nacionales o internacionales.</p>
+        <p style="margin-top: 15px;"><strong>En términos de la LFMN (Artículo 3, Fracción III):</strong> La actividad de un organismo de la evaluación de la conformidad, acreditado y aprobado, que consiste en establecer que se cumplen las especificaciones señaladas en las normas o especificaciones técnicas aplicables.</p>
+      </div>
+    </div>
+    
+    <div class="grid-3">
+      <div class="mini-card">
+        <h4>🎯 Objetivo</h4>
+        <p>Demostrar conformidad con requisitos especificados</p>
+      </div>
+      <div class="mini-card">
+        <h4>🔍 Verificación</h4>
+        <p>Por terceros independientes y acreditados</p>
+      </div>
+      <div class="mini-card">
+        <h4>📜 Resultado</h4>
+        <p>Certificado que da confianza al mercado</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>👷 Certificación de Competencia Laboral</h3>
+      <p>La certificación de competencia laboral es el <span class="highlight">reconocimiento formal</span> de que una persona posee los conocimientos, habilidades y destrezas necesarios para desempeñar una función laboral determinada, conforme a un <strong>Estándar de Competencia</strong> o Norma Técnica de Competencia Laboral (NTCL).</p>
+      
+      <h4>📊 Características:</h4>
+      <div class="grid-2">
+        <div>
+          <ul>
+            <li><strong>Basada en desempeño:</strong> Evalúa lo que la persona puede hacer</li>
+            <li><strong>Independiente de la formación:</strong> No importa cómo se aprendió</li>
+            <li><strong>Validada por terceros:</strong> Organismos certificadores acreditados</li>
+            <li><strong>Vigencia:</strong> Generalmente 3 a 5 años</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li><strong>Reconocimiento nacional:</strong> Válida en todo México</li>
+            <li><strong>Transferible:</strong> Reconocida por diferentes empleadores</li>
+            <li><strong>Actualizable:</strong> Se puede renovar</li>
+            <li><strong>Específica:</strong> Para funciones concretas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🏢 Sistema Nacional de Competencias (SNC)</h3>
+      <p>Creado en 2008 por iniciativa de la Secretaría de Educación Pública (SEP), busca estandarizar y certificar las competencias laborales de los trabajadores mexicanos.</p>
+      
+      <div class="diagram">
+        <div class="flow-item" style="background: #0891b2;">CONOCER (Consejo Nacional)</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #06b6d4;">Comités de Gestión por Competencias</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #22d3ee;">Estándares de Competencia</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #67e8f9;">Organismos Certificadores</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #a5f3fc;">Evaluadores Independientes</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📝 Proceso de Certificación de Competencias</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Etapa</th>
+            <th>Descripción</th>
+            <th>Responsable</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Diagnóstico</strong></td>
+            <td>Identificación de competencias a certificar</td>
+            <td>Candidato / Empresa</td>
+          </tr>
+          <tr>
+            <td><strong>2. Inscripción</strong></td>
+            <td>Registro ante organismo certificador</td>
+            <td>Candidato</td>
+          </tr>
+          <tr>
+            <td><strong>3. Evaluación</strong></td>
+            <td>Aplicación de instrumentos de evaluación</td>
+            <td>Evaluador independiente</td>
+          </tr>
+          <tr>
+            <td><strong>4. Verificación</strong></td>
+            <td>Revisión de evidencias</td>
+            <td>Organismo certificador</td>
+          </tr>
+          <tr>
+            <td><strong>5. Certificación</strong></td>
+            <td>Emisión de certificado (si es competente)</td>
+            <td>Organismo certificador</td>
+          </tr>
+          <tr>
+            <td><strong>6. Seguimiento</strong></td>
+            <td>Vigencia y renovación</td>
+            <td>CONOCER / OC</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="card">
+      <h3>🎯 Tipos de Certificación</h3>
+      <div class="grid-3">
+        <div class="mini-card">
+          <h4>📦 Producto</h4>
+          <p>Certifica que un producto cumple con especificaciones</p>
+          <p><small>Ej: Certificado de conformidad con NOM</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>⚙️ Proceso</h4>
+          <p>Certifica que un proceso es conforme</p>
+          <p><small>Ej: Proceso de fabricación ISO</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>🏢 Sistema</h4>
+          <p>Certifica sistemas de gestión</p>
+          <p><small>Ej: ISO 9001, ISO 14001</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>👤 Personas</h4>
+          <p>Certifica competencias de personas</p>
+          <p><small>Ej: Certificación de soldadores</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>🔧 Servicio</h4>
+          <p>Certifica que un servicio cumple requisitos</p>
+          <p><small>Ej: Servicio de calibración</small></p>
+        </div>
+        <div class="mini-card">
+          <h4>🏭 Instalación</h4>
+          <p>Certifica instalaciones específicas</p>
+          <p><small>Ej: Instalaciones eléctricas</small></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="success-box">
+      <h4>✅ Beneficios de la Certificación:</h4>
+      <div class="grid-2">
+        <div>
+          <h4>Para Trabajadores:</h4>
+          <ul>
+            <li>Reconocimiento de competencias</li>
+            <li>Mejor empleabilidad</li>
+            <li>Movilidad laboral</li>
+            <li>Desarrollo profesional</li>
+            <li>Incremento salarial</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Para Empresas:</h4>
+          <ul>
+            <li>Personal calificado</li>
+            <li>Mayor productividad</li>
+            <li>Reducción de riesgos</li>
+            <li>Cumplimiento normativo</li>
+            <li>Ventaja competitiva</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🏛️ Organismos Certificadores en México</h3>
+      <p>Entidades acreditadas por la <strong>ema (Entidad Mexicana de Acreditación)</strong> y aprobadas por la <strong>Secretaría de Economía</strong> para certificar el cumplimiento de normas.</p>
+      
+      <div class="info-box">
+        <h4>Ejemplos de Organismos Certificadores:</h4>
+        <ul>
+          <li><strong>NYCE:</strong> Productos electrónicos y eléctricos</li>
+          <li><strong>ANCE:</strong> Productos e instalaciones eléctricas</li>
+          <li><strong>NORMEX:</strong> Diversos sectores industriales</li>
+          <li><strong>IMNC:</strong> Sistemas de gestión</li>
+          <li><strong>ONNCCE:</strong> Construcción y edificación</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: 2.2.2 NORMAS DE METROLOGÍA -->
+<section class="slide" data-slide="8">
+  <div class="slide-content">
+    <h1 class="slide-title">📏 2.2.2 Normas de Metrología</h1>
+    
+    <div class="card">
+      <h3>📋 Normas Aplicadas a Metrología e Instrumentación</h3>
+      <p>Las normas de metrología establecen los <span class="highlight">criterios técnicos</span> para asegurar que las mediciones sean confiables, precisas y comparables. Estas normas son fundamentales para el comercio, la industria y la protección al consumidor.</p>
+    </div>
+    
+    <div class="card">
+      <h3>🏛️ Principales Normas Mexicanas en Metrología</h3>
+      
+      <h4>NOM-008-SCFI-2002: Sistema General de Unidades de Medida</h4>
+      <div class="info-box">
+        <p><strong>Objetivo:</strong> Establecer las unidades de medida que deben emplearse en el país, así como la terminología, definiciones, símbolos y expresiones que deben utilizarse.</p>
+        <p><strong>Alcance:</strong> Todas las actividades donde se requiera emplear unidades de medida en el territorio nacional.</p>
+        <p><strong>Contenido principal:</strong></p>
+        <ul>
+          <li>Adopción del Sistema Internacional de Unidades (SI)</li>
+          <li>Definiciones de las 7 unidades base</li>
+          <li>Unidades derivadas</li>
+          <li>Prefijos del SI</li>
+          <li>Reglas de escritura de símbolos y números</li>
+        </ul>
+      </div>
+      
+      <h4 style="margin-top: 30px;">NOM-010-SCFI-2017: Instrumentos de Medición</h4>
+      <div class="info-box">
+        <p><strong>Objetivo:</strong> Establ ecer los requisitos técnicos y metrológicos que deben cumplir los instrumentos para medir y los patrones de masa.</p>
+        <p><strong>Instrumentos que regula:</strong></p>
+        <div class="grid-2" style="margin-top: 10px;">
+          <div>
+            <ul>
+              <li>Básculas</li>
+              <li>Dinamómetros</li>
+              <li>Medidores de volumen</li>
+              <li>Medidores de longitud</li>
+              <li>Taxímetros</li>
+            </ul>
+          </div>
+          <div>
+            <ul>
+              <li>Sistemas de medición de gasolina</li>
+              <li>Medidores de energía eléctrica</li>
+              <li>Medidores de agua</li>
+              <li>Cronómetros</li>
+              <li>Pesas patrón</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🌍 Normas Internacionales en Metrología</h3>
+      
+      <h4>ISO 9001:2015 - Sistemas de Gestión de Calidad</h4>
+      <p>Aunque no es exclusiva de metrología, incluye requisitos sobre <strong>medición, seguimiento y equipos de medición</strong>.</p>
+      <div class="success-box">
+        <h4>Cláusula 7.1.5 - Recursos de seguimiento y medición:</h4>
+        <p>La organización debe determinar y proporcionar los recursos necesarios para asegurarse de la validez y fiabilidad de los resultados cuando se realice el seguimiento o la medición para verificar la conformidad de los productos y servicios con los requisitos.</p>
+        <p><strong>Requisitos:</strong></p>
+        <ul>
+          <li>Los equipos de medición deben ser apropiados</li>
+          <li>Deben mantenerse calibrados o verificados</li>
+          <li>Se debe mantener evidencia de calibración</li>
+          <li>Proteger contra ajustes no autorizados</li>
+        </ul>
+      </div>
+      
+      <h4 style="margin-top: 30px;">ISO 10012:2003 - Sistemas de Gestión de las Mediciones</h4>
+      <div class="info-box">
+        <p><strong>Objetivo:</strong> Proporcionar directrices para la gestión de los procesos de medición y la confirmación metrológica del equipo de medición usado para apoyar y demostrar el cumplimiento con requisitos metrológicos.</p>
+        <p><strong>Elementos clave:</strong></p>
+        <ul>
+          <li>Responsabilidades de la gestión</li>
+          <li>Recursos metrológicos</li>
+          <li>Confirmación metrológica</li>
+          <li>Análisis y mejora del sistema de medición</li>
+        </ul>
+      </div>
+      
+      <h4 style="margin-top: 30px;">ISO/IEC 17025:2017 - Requisitos Generales para la Competencia de Laboratorios</h4>
+      <p>Norma internacional que especifica los requisitos que deben cumplir los laboratorios de ensayo y calibración para demostrar que operan competentemente.</p>
+      <div class="success-box">
+        <h4>Aspectos principales:</h4>
+        <div class="grid-2">
+          <div>
+            <h4>Requisitos de gestión:</h4>
+            <ul>
+              <li>Organización</li>
+              <li>Sistema de gestión</li>
+              <li>Control de documentos</li>
+              <li>Revisiones y auditorías</li>
+              <li>Acciones correctivas</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Requisitos técnicos:</h4>
+            <ul>
+              <li>Personal competente</li>
+              <li>Instalaciones y condiciones ambientales</li>
+              <li>Equipos calibrados</li>
+              <li>Trazabilidad metrológica</li>
+              <li>Métodos validados</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📐 Vocabulario Internacional de Metrología (VIM)</h3>
+      <p>El VIM (ISO/IEC Guide 99:2007) define los <strong>términos fundamentales</strong> utilizados en metrología.</p>
+      
+      <div class="grid-2">
+        <div class="mini-card">
+          <h4>Términos Básicos:</h4>
+          <ul>
+            <li><strong>Medición:</strong> Proceso para obtener experimentalmente valores de una magnitud</li>
+            <li><strong>Mensurando:</strong> Magnitud que se desea medir</li>
+            <li><strong>Resultado de medición:</strong> Valor atribuido al mensurando</li>
+            <li><strong>Exactitud:</strong> Proximidad entre un valor medido y el valor verdadero</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Conceptos Avanzados:</h4>
+          <ul>
+            <li><strong>Incertidumbre:</strong> Parámetro que caracteriza la dispersión de valores</li>
+            <li><strong>Calibración:</strong> Operación que relaciona valores indicados con valores de referencia</li>
+            <li><strong>Trazabilidad:</strong> Propiedad de un resultado de medición relacionada con una referencia</li>
+            <li><strong>Repetibilidad:</strong> Precisión bajo condiciones iguales</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>⚙️ Aplicación de Normas de Metrología en la Industria</h3>
+      <div class="grid-3">
+        <div class="mini-card">
+          <h4>🏭 Manufactura</h4>
+          <ul>
+            <li>Control dimensional</li>
+            <li>Verificación de tolerancias</li>
+            <li>Calibración de equipos</li>
+            <li>Control de procesos</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>🔬 Laboratorios</h4>
+          <ul>
+            <li>Análisis químicos</li>
+            <li>Pruebas físicas</li>
+            <li>Ensayos de materiales</li>
+            <li>Verificación de calidad</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>⚕️ Sector Salud</h4>
+          <ul>
+            <li>Equipos médicos</li>
+            <li>Dosificación de medicamentos</li>
+            <li>Análisis clínicos</li>
+            <li>Radiología</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>🛢️ Energía</h4>
+          <ul>
+            <li>Medición de combustibles</li>
+            <li>Medidores eléctricos</li>
+            <li>Medición de gas</li>
+            <li>Emisiones</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>🍔 Alimentos</h4>
+          <ul>
+            <li>Pesaje de ingredientes</li>
+            <li>Control de temperatura</li>
+            <li>Medición de pH</li>
+            <li>Contenido neto</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>🚗 Automotriz</h4>
+          <ul>
+            <li>Control dimensional</li>
+            <li>Torque</li>
+            <li>Emisiones</li>
+            <li>Velocímetros</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="warning-box">
+      <h4>⚠️ Consecuencias de No Cumplir con Normas de Metrología:</h4>
+      <ul>
+        <li><strong>Legales:</strong> Multas y sanciones por incumplimiento de NOM</li>
+        <li><strong>Comerciales:</strong> Pérdida de clientes y reputación</li>
+        <li><strong>Operativas:</strong> Productos defectuosos y desperdicios</li>
+        <li><strong>Seguridad:</strong> Riesgos para usuarios y trabajadores</li>
+        <li><strong>Financieras:</strong> Costos por reprocesos y devoluciones</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: 2.2.3 SISTEMA METROLÓGICO Y SU RELACIÓN CON EL SISTEMA DE CALIDAD -->
+<section class="slide" data-slide="9">
+  <div class="slide-content">
+    <h1 class="slide-title">🔗 2.2.3 Sistema Metrológico y su Relación con el Sistema de Calidad</h1>
+    
+    <div class="card">
+      <h3>⚖️ El Sistema Metrológico Nacional</h3>
+      <p>El <span class="highlight">Sistema Metrológico Nacional</span> es el conjunto de instituciones, instrumentos, patrones, procedimientos y normativas que garantizan la <strong>trazabilidad metrológica</strong> y la confiabilidad de las mediciones en México.</p>
+      
+      <div class="diagram">
+        <div class="flow-item" style="background: #dc2626;">BIPM (Internacional)</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #ea580c;">CENAM (Patrones Nacionales)</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #d97706;">Laboratorios Primarios</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #ca8a04;">Laboratorios de Calibración Acreditados</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item" style="background: #65a30d;">Industria y Usuarios Finales</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🏢 Componentes del Sistema Metrológico</h3>
+      <div class="grid-2">
+        <div class="mini-card">
+          <h4>1. CENAM</h4>
+          <p><strong>Centro Nacional de Metrología</strong></p>
+          <ul>
+            <li>Custodio de patrones nacionales</li>
+            <li>Investicación metrológica</li>
+            <li>Servicios de calibración de más alta jerarquía</li>
+            <li>Representación internacional de México</li>
+          </ul>
+        </div>
+        
+        <div class="mini-card">
+          <h4>2. ema</h4>
+          <p><strong>Entidad Mexicana de Acreditación</strong></p>
+          <ul>
+            <li>Acredita laboratorios de calibración</li>
+            <li>Acredita laboratorios de ensayo</li>
+            <li>Acredita organismos de certificación</li>
+            <li>Acredita unidades de verificación</li>
+          </ul>
+        </div>
+        
+        <div class="mini-card">
+          <h4>3. Laboratorios Acreditados</h4>
+          <p><strong>Red de laboratorios</strong></p>
+          <ul>
+            <li>Calibración de instrumentos</li>
+            <li>Ensayos y pruebas</li>
+            <li>Servicios con trazabilidad</li>
+            <li>Certificados reconocidos</li>
+          </ul>
+        </div>
+        
+        <div class="mini-card">
+          <h4>4. Organismos Certificadores</h4>
+          <p><strong>Evaluación de conformidad</strong></p>
+          <ul>
+            <li>Certificación de productos</li>
+            <li>Certificación de sistemas</li>
+            <li>Certificación de personas</li>
+            <li>Emiten certificados</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🔗 Relación entre Metrología y Calidad</h3>
+      <p>La metrología es un <strong>pilar fundamental</strong> de los sistemas de gestión de calidad. Sin mediciones confiables, no es posible controlar ni mejorar la calidad.</p>
+      
+      <div class="info-box">
+        <h4>💡 Principio Fundamental:</h4>
+        <p><strong>"No se puede controlar lo que no se puede medir"</strong></p>
+        <p style="margin-top: 10px;">La metrología proporciona la <span class="highlight">base cuantitativa</span> para:</p>
+        <ul>
+          <li>Verificar el cumplimiento de especificaciones</li>
+          <li>Controlar procesos productivos</li>
+          <li>Tomar decisiones basadas en datos</li>
+          <li>Demostrar conformidad con normas</li>
+          <li>Mejorar continuamente</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📊 Integración en ISO 9001:2015</h3>
+      <p>La norma ISO 9001 integra requisitos metrológicos en varios puntos:</p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Cláusula ISO 9001</th>
+            <th>Requisito Metrológico</th>
+            <th>Aplicación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>7.1.5.1</strong></td>
+            <td>Recursos de seguimiento y medición</td>
+            <td>Determinar y proporcionar equipos apropiados</td>
+          </tr>
+          <tr>
+            <td><strong>7.1.5.2</strong></td>
+            <td>Trazabilidad de las mediciones</td>
+            <td>Calibrar o verificar equipos a intervalos planificados</td>
+          </tr>
+          <tr>
+            <td><strong>8.5.1</strong></td>
+            <td>Control de la producción</td>
+            <td>Uso de equipos de seguimiento y medición</td>
+          </tr>
+          <tr>
+            <td><strong>8.6</strong></td>
+            <td>Liberación de productos</td>
+            <td>Verificación mediante mediciones</td>
+          </tr>
+          <tr>
+            <td><strong>9.1.1</strong></td>
+            <td>Seguimiento, medición, análisis</td>
+            <td>Determinar qué, cómo y cuándo medir</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="card">
+      <h3>🎯 Confirmación Metrológica (ISO 10012)</h3>
+      <p>La <strong>confirmación metrológica</strong> es el conjunto de operaciones necesarias para asegurar que el equipo de medición cumple con los requisitos para su uso previsto.</p>
+      
+      <div class="diagram">
+        <div class="flow-item">1. Calibración</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">2. Verificación</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">3. Ajuste (si necesario)</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">4. Etiquetado</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">5. Registro</div>
+        <div class="arrow">↓</div>
+        <div class="flow-item">✅ Equipo Confirmado</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📋 Gestión de Equipos de Medición</h3>
+      <div class="grid-2">
+        <div>
+          <h4>Actividades Clave:</h4>
+          <ul>
+            <li><strong>Identificación:</strong> Código único para cada equipo</li>
+            <li><strong>Inventario:</strong> Lista de todos los equipos</li>
+            <li><strong>Calibración:</strong> Programa de calibraciones</li>
+            <li><strong>Verificación intermedia:</strong> Chequeos entre calibraciones</li>
+            <li><strong>Mantenimiento:</strong> Preventivo y correctivo</li>
+            <li><strong>Almacenamiento:</strong> Condiciones apropiadas</li>
+            <li><strong>Documentación:</strong> Certificados y registros</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Información Requerida:</h4>
+          <ul>
+            <li>Identificación del equipo</li>
+            <li>Fabricante y modelo</li>
+            <li>Ubicación habitual</li>
+            <li>Rango de medición</li>
+            <li>Resolución</li>
+            <li>Exactitud requerida</li>
+            <li>Frecuencia de calibración</li>
+            <li>Método de calibración</li>
+            <li>Criterios de aceptación</li>
+            <li>Última calibración</li>
+            <li>Próxima calibración</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="success-box">
+      <h4>✅ Beneficios de Integrar Metrología y Calidad:</h4>
+      <div class="grid-3">
+        <div>
+          <h4>Operativos:</h4>
+          <ul>
+            <li>Reducción de defectos</li>
+            <li>Menos desperdicios</li>
+            <li>Procesos estables</li>
+            <li>Mayor productividad</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Comerciales:</h4>
+          <ul>
+            <li>Mayor confianza del cliente</li>
+            <li>Cumplimiento de contratos</li>
+            <li>Acceso a mercados</li>
+            <li>Ventaja competitiva</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Estratégicos:</h4>
+          <ul>
+            <li>Mejora continua</li>
+            <li>Decisiones basadas en datos</li>
+            <li>Innovación</li>
+            <li>Sostenibilidad</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🔄 Ciclo de Mejora Continua y Metrología</h3>
+      <p>La metrología alimenta el ciclo PDCA (Planear-Hacer-Verificar-Actuar) proporcionando datos objetivos en cada etapa.</p>
+      
+      <div class="grid-2">
+        <div class="mini-card" style="border-color: #3b82f6;">
+          <h4>📝 PLAN (Planear)</h4>
+          <p>La metrología define <strong>qué medir, cómo medir y con qué exactitud</strong></p>
+          <ul>
+            <li>Establecer especificaciones</li>
+            <li>Definir métodos de medición</li>
+            <li>Determinar equipos necesarios</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color: #10b981;">
+          <h4>⚙️ DO (Hacer)</h4>
+          <p>Se realizan las <strong>mediciones durante el proceso</strong></p>
+          <ul>
+            <li>Ejecutar mediciones</li>
+            <li>Registrar resultados</li>
+            <li>Usar equipos calibrados</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color: #f59e0b;">
+          <h4>✓ CHECK (Verificar)</h4>
+          <p>Se <strong>comparan resultados con especificaciones</strong></p>
+          <ul>
+            <li>Analizar datos</li>
+            <li>Identificar desviaciones</li>
+            <li>Evaluar conformidad</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color: #ef4444;">
+          <h4>🔄 ACT (Actuar)</h4>
+          <p>Se toman <strong>acciones correctivas</strong> basadas en mediciones</p>
+          <ul>
+            <li>Ajustar procesos</li>
+            <li>Implementar mejoras</li>
+            <li>Prevenir recurrencias</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: 2.2.4 ACREDITACIÓN DE LABORATORIOS DE PRUEBA -->
+<section class="slide" data-slide="10">
+  <div class="slide-content">
+    <h1 class="slide-title">🔬 2.2.4 Acreditación de Laboratorios de Prueba</h1>
+    
+    <div class="card">
+      <h3>📋 ¿Qué es la Acreditación?</h3>
+      <div class="info-box">
+        <p><strong>Acreditación:</strong> Procedimiento por el cual una entidad de acreditación reconoce y certifica formalmente que un organismo de certificación, laboratorio de prueba o de calibración, es <strong>competente</strong> para llevar a cabo tareas específicas de evaluación de la conformidad.</p>
+        <p style="margin-top: 15px;"><strong>Según ISO/IEC 17011:</strong> Atestación de tercera parte relativa a un organismo de evaluación de la conformidad que manifiesta la demostración formal de su competencia para llevar a cabo tareas específicas de evaluación de la conformidad.</p>
+      </div>
+    </div>
+    
+    <div class="grid-3">
+      <div class="mini-card">
+        <h4>🎯 Objetivo</h4>
+        <p>Demostrar competencia técnica del laboratorio</p>
+      </div>
+      <div class="mini-card">
+        <h4>🏛️ Autoridad</h4>
+        <p>ema (Entidad Mexicana de Acreditación)</p>
+      </div>
+      <div class="mini-card">
+        <h4>📜 Resultado</h4>
+        <p>Certificado de acreditación con alcance definido</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🏢 ema - Entidad Mexicana de Acreditación</h3>
+      <p>La <strong>ema</strong> es el organismo nacional de acreditación en México, reconocido por el gobierno federal para acreditar organismos de evaluación de la conformidad.</p>
+      
+      <div class="grid-2">
+        <div>
+          <h4>📋 ¿Qué acredita la ema?</h4>
+          <ul>
+            <li><strong>Laboratorios de calibración</strong> (ISO/IEC 17025)</li>
+            <li><strong>Laboratorios de ensayo/prueba</strong> (ISO/IEC 17025)</li>
+            <li><strong>Laboratorios clínicos</strong> (ISO 15189)</li>
+            <li><strong>Organismos de certificación de producto</strong></li>
+            <li><strong>Organismos de certificación de sistemas</strong></li>
+            <li><strong>Organismos de certificación de personas</strong></li>
+            <li><strong>Unidades de verificación</strong> (NMX-EC-17020-IMNC)</li>
+            <li><strong>Proveedores de ensayos de aptitud</strong></li>
+          </ul>
+        </div>
+        <div>
+          <h4>🌍 Reconocimientos Internacionales:</h4>
+          <ul>
+            <li><strong>ILAC</strong> (International Laboratory Accreditation Cooperation)</li>
+            <li><strong>IAAC</strong> (Inter-American Accreditation Cooperation)</li>
+            <li><strong>IAF</strong> (International Accreditation Forum)</li>
+            <li><strong>APLAC</strong> (Asia Pacific Laboratory Accreditation Cooperation)</li>
+          </ul>
+          <p style="margin-top: 15px;"><strong>Ventaja:</strong> Los certificados emitidos por laboratorios acreditados por ema son reconocidos internacionalmente mediante acuerdos de reconocimiento mutuo (MRA/MLA).</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📜 ISO/IEC 17025:2017</h3>
+      <p>Norma internacional que especifica los <strong>requisitos generales</strong> para la competencia, imparcialidad y operación consistente de laboratorios de ensayo y calibración.</p>
+      
+      <h4>📊 Estructura de la Norma:</h4>
+      <div class="grid-2">
+        <div class="mini-card" style="border-color: var(--primary);">
+          <h4>Requisitos Generales</h4>
+          <ul>
+            <li>Imparcialidad</li>
+            <li>Confidencialidad</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color: var(--primary);">
+          <h4>Requisitos de Estructura</h4>
+          <ul>
+            <li>Organización del laboratorio</li>
+            <li>Responsabilidades definidas</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color: var(--secondary);">
+          <h4>Requisitos de Recursos</h4>
+          <ul>
+            <li>Personal competente</li>
+            <li>Instalaciones adecuadas</li>
+            <li>Equipos calibrados</li>
+            <li>Trazabilidad metrológica</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color: var(--secondary);">
+          <h4>Requisitos de Proceso</h4>
+          <ul>
+            <li>Revisión de solicitudes</li>
+            <li>Métodos validados</li>
+            <li>Muestreo</li>
+            <li>Manejo de ítems</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color: var(--accent);">
+          <h4>Requisitos de Sistema de Gestión</h4>
+          <ul>
+            <li>Documentación</li>
+            <li>Control de documentos</li>
+            <li>Acciones correctivas</li>
+            <li>Auditorías internas</li>
+            <li>Revisiones por la dirección</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color: var(--accent);">
+          <h4>Informes y Certificados</h4>
+          <ul>
+            <li>Contenido mínimo</li>
+            <li>Requisitos de formato</li>
+            <li>Declaraciones de conformidad</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🔄 Proceso de Acreditación</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Etapa</th>
+            <th>Actividad</th>
+            <th>Duración Aproximada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Solicitud</strong></td>
+            <td>El laboratorio presenta solicitud formal a ema con información sobre alcance deseado</td>
+            <td>1 semana</td>
+          </tr>
+          <tr>
+            <td><strong>2. Análisis de solicitud</strong></td>
+            <td>ema revisa que la solicitud esté completa y asigna equipo evaluador</td>
+            <td>2-4 semanas</td>
+          </tr>
+          <tr>
+            <td><strong>3. Evaluación documental</strong></td>
+            <td>Revisión de documentos del sistema de gestión (manual, procedimientos, políticas)</td>
+            <td>4-6 semanas</td>
+          </tr>
+          <tr>
+            <td><strong>4. Evaluación in situ</strong></td>
+            <td>Visita al laboratorio para evaluar instalaciones, equipos, personal y operación</td>
+            <td>1-5 días según alcance</td>
+          </tr>
+          <tr>
+            <td><strong>5. Atención de no conformidades</strong></td>
+            <td>El laboratorio implementa acciones correctivas a hallazgos identificados</td>
+            <td>1-6 meses</td>
+          </tr>
+          <tr>
+            <td><strong>6. Decisión de acreditación</strong></td>
+            <td>Comité técnico de ema revisa evidencias y decide sobre acreditación</td>
+            <td>4-8 semanas</td>
+          </tr>
+          <tr>
+            <td><strong>7. Emisión de certificado</strong></td>
+            <td>ema emite certificado de acreditación con alcance aprobado</td>
+            <td>2 semanas</td>
+          </tr>
+          <tr>
+            <td><strong>8. Vigilancias</strong></td>
+            <td>ema realiza evaluaciones periódicas (anuales) durante vigencia de acreditación</td>
+            <td>Cada 12 meses</td>
+          </tr>
+          <tr>
+            <td><strong>9. Renovación</strong></td>
+            <td>Re-evaluación completa cada 4 años</td>
+            <td>Cada 4 años</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="card">
+      <h3>📋 Requisitos Clave para Acreditación</h3>
+      
+      <h4>👥 Personal</h4>
+      <div class="info-box">
+        <ul>
+          <li>Definición de competencias requeridas para cada puesto</li>
+          <li>Evidencia de educación, formación, experiencia y habilidades</li>
+          <li>Programas de capacitación continua</li>
+          <li>Evaluación periódica de competencias</li>
+          <li>Autorización formal del personal para realizar actividades específicas</li>
+        </ul>
+      </div>
+      
+      <h4>🏭 Instalaciones y Condiciones Ambientales</h4>
+      <div class="info-box">
+        <ul>
+          <li>Espacios adecuados para las actividades</li>
+          <li>Control de condiciones ambientales (temperatura, humedad, iluminación, ruido, vibración)</li>
+          <li>Separación de áreas incompatibles</li>
+          <li>Control de acceso</li>
+          <li>Mantenimiento de instalaciones</li>
+          <li>Condiciones de seguridad y orden</li>
+        </ul>
+      </div>
+      
+      <h4>⚙️ Equipos</h4>
+      <div class="info-box">
+        <ul>
+          <li>Equipos apropiados para los ensayos/calibraciones</li>
+          <li>Programa de calibración y verificación</li>
+          <li>Trazabilidad al SI</li>
+          <li>Registros de calibraciones y mantenimiento</li>
+          <li>Identificación única de equipos</li>
+          <li>Etiquetas de estado de calibración</li>
+          <li>Procedimientos de operación</li>
+          <li>Protección contra ajustes no autorizados</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📐 Trazabilidad Metrológica</h3>
+      <p>Uno de los requisitos más críticos de la acreditación es demostrar la <strong>trazabilidad metrológica</strong> de las mediciones.</p>
+      
+      <div class="success-box">
+        <h4>✅ Cadena de Trazabilidad:</h4>
+        <div class="diagram">
+          <div class="flow-item" style="background: #1e40af;">SI (Patrones Internacionales)</div>
+          <div class="arrow">↓</div>
+          <div class="flow-item" style="background: #2563eb;">Patrones Nacionales (CENAM)</div>
+          <div class="arrow">↓</div>
+          <div class="flow-item" style="background: #3b82f6;">Patrones de Referencia del Laboratorio</div>
+          <div class="arrow">↓</div>
+          <div class="flow-item" style="background: #60a5fa;">Patrones de Trabajo</div>
+          <div class="arrow">↓</div>
+          <div class="flow-item" style="background: #93c5fd;">Instrumentos de Medición</div>
+          <div class="arrow">↓</div>
+          <div class="flow-item" style="background: #dbeafe;">Resultado de Medición</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📊 Validación de Métodos</h3>
+      <p>Los laboratorios deben validar los métodos de ensayo/calibración que utilizan, especialmente los <strong>métodos no normalizados</strong>.</p>
+      
+      <div class="grid-2">
+        <div>
+          <h4>Parámetros de Validación:</h4>
+          <ul>
+            <li><strong>Selectividad/Especificidad</strong></li>
+            <li><strong>Linealidad</strong></li>
+            <li><strong>Rango de trabajo</strong></li>
+            <li><strong>Exactitud</strong></li>
+            <li><strong>Precisión (repetibilidad y reproducibilidad)</strong></li>
+            <li><strong>Límite de detección</strong></li>
+            <li><strong>Límite de cuantificación</strong></li>
+            <li><strong>Robustez</strong></li>
+            <li><strong>Incertidumbre</strong></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Métodos que Requieren Validación:</h4>
+          <ul>
+            <li>Métodos desarrollados por el laboratorio</li>
+            <li>Métodos normalizados fuera de su alcance previsto</li>
+            <li>Ampliaciones y modificaciones de métodos normalizados</li>
+            <li>Métodos antiguos que requieren actualización</li>
+          </ul>
+          <h4 style="margin-top: 20px;">Métodos que Requieren Verificación:</h4>
+          <ul>
+            <li>Métodos normalizados (ASTM, ISO, NOM, etc.)</li>
+            <li>Verificar que el laboratorio puede reproducir las características del método</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📄 Informes de Ensayo y Certificados de Calibración</h3>
+      <p>Los laboratorios acreditados deben emitir informes/certificados que cumplan requisitos específicos.</p>
+      
+      <div class="info-box">
+        <h4>Contenido Mínimo Requerido:</h4>
+        <ul>
+          <li>Título (Informe de Ensayo / Certificado de Calibración)</li>
+          <li>Identificación del laboratorio y acreditación</li>
+          <li>Logo de la ema (cuando aplique)</li>
+          <li>Identificación única del documento</li>
+          <li>Identificación del cliente</li>
+          <li>Identificación del ítem ensayado/calibrado</li>
+          <li>Fecha de recepción y fecha de ensayo/calibración</li>
+          <li>Resultados con unidades de medida</li>
+          <li>Incertidumbre de medición (cuando aplique)</li>
+          <li>Método utilizado</li>
+          <li>Condiciones ambientales</li>
+          <li>Declaración de conformidad (cuando se requiera)</li>
+          <li>Firma autorizada</li>
+          <li>Declaración de que el informe/certificado solo puede reproducirse completo</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="success-box">
+      <h4>✅ Beneficios de la Acreditación:</h4>
+      <div class="grid-3">
+        <div>
+          <h4>Para el Laboratorio:</h4>
+          <ul>
+            <li>Reconocimiento de competencia técnica</li>
+            <li>Mayor credibilidad</li>
+            <li>Acceso a mercados</li>
+            <li>Mejora de procesos internos</li>
+            <li>Ventaja competitiva</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Para los Clientes:</h4>
+          <ul>
+            <li>Confianza en resultados</li>
+            <li>Reducción de riesgos</li>
+            <li>Aceptación internacional</li>
+            <li>Cumplimiento regulatorio</li>
+            <li>Decisiones basadas en datos confiables</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Para la Sociedad:</h4>
+          <ul>
+            <li>Protección al consumidor</li>
+            <li>Facilitación del comercio</li>
+            <li>Protección ambiental</li>
+            <li>Seguridad pública</li>
+            <li>Desarrollo tecnológico</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="warning-box">
+      <h4>⚠️ Diferencia entre Acreditación y Certificación:</h4>
+      <table style="margin-top: 15px;">
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th>Acreditación</th>
+            <th>Certificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Qué es</strong></td>
+            <td>Reconocimiento de COMPETENCIA TÉCNICA</td>
+            <td>Reconocimiento de CONFORMIDAD con requisitos</td>
+          </tr>
+          <tr>
+            <td><strong>Quién lo otorga</strong></td>
+            <td>ema (organismo de acreditación)</td>
+            <td>Organismos de certificación</td>
+          </tr>
+          <tr>
+            <td><strong>A quién se aplica</strong></td>
+            <td>Laboratorios, organismos de certificación, unidades de verificación</td>
+            <td>Productos, sistemas, servicios, personas</td>
+          </tr>
+          <tr>
+            <td><strong>Base</strong></td>
+            <td>ISO/IEC 17025, ISO/IEC 17065, etc.</td>
+            <td>NOM, NMX, ISO 9001, ISO 14001, etc.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11: CASOS PRÁCTICOS Y EJEMPLOS -->
+<section class="slide" data-slide="11">
+  <div class="slide-content">
+    <h1 class="slide-title">💼 Casos Prácticos y Ejemplos</h1>
+    
+    <div class="card">
+      <h3>🏭 Caso 1: Industria Automotriz</h3>
+      <div class="info-box">
+        <h4>Situación:</h4>
+        <p>Una empresa automotriz debe cumplir con especificaciones dimensionales muy estrictas en la fabricación de componentes de motor. Las tolerancias son de ±0.01 mm.</p>
+        
+        <h4>Aplicación de Normalización y Metrología:</h4>
+        <ul>
+          <li><strong>NOM-010-SCFI:</strong> Los instrumentos de medición (micrómetros, calibradores) deben estar calibrados</li>
+          <li><strong>ISO 9001:</strong> Sistema de gestión de calidad que incluye control de equipos de medición</li>
+          <li><strong>Calibración trazable:</strong> Los instrumentos se calibran en laboratorios acreditados por ema</li>
+          <li><strong>Frecuencia:</strong> Calibración cada 6 meses o según uso</li>
+          <li><strong>Resultado:</strong> Garantía de que las piezas cumplen especificaciones y son intercambiables</li>
+        </ul>
+        
+        <h4>Beneficio:</h4>
+        <p>Reducción de rechazo de piezas del 8% al 1.5%, ahorro anual de $2.5 millones de pesos.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>⛽ Caso 2: Estación de Servicio (Gasolinera)</h3>
+      <div class="info-box">
+        <h4>Situación:</h4>
+        <p>Una estación de servicio debe garantizar que los litros despachados corresponden exactamente a lo que el cliente paga.</p>
+        
+        <h4>Aplicación de Metrología Legal:</h4>
+        <ul>
+          <li><strong>NOM-005-SCFI:</strong> Instrumentos de medición - Sistema para medición y despacho de gasolina</li>
+          <li><strong>Verificación inicial:</strong> Antes de poner en operación los dispensarios</li>
+          <li><strong>Verificación periódica:</strong> Cada año por unidad de verificación aprobada</li>
+          <li><strong>Verificación extraordinaria:</strong> Cuando PROFECO lo requiera</li>
+          <li><strong>Tolerancia máxima:</strong> ±0.5% del volumen indicado</li>
+          <li><strong>Sello oficial:</strong> Los dispensarios verificados llevan un sello holográfico de PROFECO</li>
+        </ul>
+        
+        <h4>Sanción por incumplimiento:</h4>
+        <p>Multas de hasta $3,000,000 pesos y clausura del establecimiento.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🔬 Caso 3: Laboratorio Clínico</h3>
+      <div class="info-box">
+        <h4>Situación:</h4>
+        <p>Un laboratorio clínico realiza análisis de glucosa en sangre. Los resultados influyen en decisiones médicas críticas.</p>
+        
+        <h4>Aplicación de Acreditación:</h4>
+        <ul>
+          <li><strong>Acreditación ISO 15189:</strong> Requisitos para laboratorios clínicos</li>
+          <li><strong>Calibración de equipos:</strong> Espectrofotómetros, centrífugas, pipetas</li>
+          <li><strong>Control de calidad:</strong> Materiales de referencia certificados</li>
+          <li><strong>Validación de métodos:</strong> Verificar exactitud y precisión</li>
+          <li><strong>Ensayos de aptitud:</strong> Participación en programas interlaboratorio</li>
+          <li><strong>Personal capacitado:</strong> Certificación de competencias</li>
+        </ul>
+        
+        <h4>Resultado:</h4>
+        <p>Los resultados del laboratorio son confiables y aceptados por médicos y pacientes. La tasa de error se reduce de 5% a menos de 0.5%.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🏗️ Caso 4: Construcción</h3>
+      <div class="info-box">
+        <h4>Situación:</h4>
+        <p>Una constructora debe garantizar la resistencia del concreto utilizado en una obra.</p>
+        
+        <h4>Aplicación de Normas:</h4>
+        <ul>
+          <li><strong>NMX-C-083-ONNCCE:</strong> Método de prueba para la resistencia a la compresión de cilindros de concreto</li>
+          <li><strong>NMX-C-155-ONNCCE:</strong> Concreto hidráulico - Dosificado en masa</li>
+          <li><strong>Laboratorio acreditado:</strong> Las pruebas deben realizarse en laboratorio acreditado por ema</li>
+          <li><strong>Máquina de compresión:</strong> Calibrada y verificada anualmente</li>
+          <li><strong>Especificación:</strong> Resistencia mínima de 250 kg/cm²</li>
+        </ul>
+        
+        <h4>Consecuencia del cumplimiento:</h4>
+        <p>Estructuras seguras que cumplen con el reglamento de construcción. Evita colapsos y responsabilidades legales.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🍔 Caso 5: Industria Alimentaria</h3>
+      <div class="info-box">
+        <h4>Situación:</h4>
+        <p>Una empresa de alimentos debe garantizar el peso neto declarado en sus productos empacados.</p>
+        
+        <h4>Aplicación de Normas:</h4>
+        <ul>
+          <li><strong>NOM-002-SCFI:</strong> Productos preenvasados - Contenido neto, tolerancias y métodos de verificación</li>
+          <li><strong>NOM-051-SCFI/SSA1:</strong> Especificaciones generales de etiquetado</li>
+          <li><strong>Básculas calibradas:</strong> Verificación semestral por unidad de verificación</li>
+          <li><strong>Control de peso:</strong> Inspección del 100% de productos o muestreo estadístico</li>
+          <li><strong>Tolerancia:</strong> Varía según el contenido (ej: 4.5% para productos de 50-100g)</li>
+        </ul>
+        
+        <h4>Beneficio:</h4>
+        <p>Protección al consumidor y cumplimiento legal. Evita sanciones y retiros de producto del mercado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12: ORGANISMOS IMPORTANTES -->
+<section class="slide" data-slide="12">
+  <div class="slide-content">
+    <h1 class="slide-title">🏛️ Organismos Importantes en Normalización y Metrología</h1>
+    
+    <div class="card">
+      <h3>🇲🇽 Organismos Nacionales (México)</h3>
+      
+      <div class="grid-2">
+        <div class="mini-card">
+          <h4>🏢 Secretaría de Economía (SE)</h4>
+          <p><strong>Funciones:</strong></p>
+          <ul>
+            <li>Coordina el Sistema Nacional de Normalización</li>
+            <li>Expide NOM en materia de comercio</li>
+            <li>Aprueba organismos de normalización</li>
+            <li>Vigila cumplimiento de normas</li>
+          </ul>
+          <p><strong>Web:</strong> <a href="https://www.gob.mx/se" target="_blank">www.gob.mx/se</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>⚖️ CENAM</h4>
+          <p><strong>Centro Nacional de Metrología</strong></p>
+          <ul>
+            <li>Custodio de patrones nacionales</li>
+            <li>Investigación metrológica</li>
+            <li>Servicios de calibración</li>
+            <li>Capacitación especializada</li>
+          </ul>
+          <p><strong>Web:</strong> <a href="https://www.cenam.mx" target="_blank">www.cenam.mx</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>✅ ema</h4>
+          <p><strong>Entidad Mexicana de Acreditación</strong></p>
+          <ul>
+            <li>Acredita laboratorios</li>
+            <li>Acredita organismos de certificación</li>
+            <li>Acredita unidades de verificación</li>
+            <li>Evaluaciones y vigilancia</li>
+          </ul>
+          <p><strong>Web:</strong> <a href="https://www.ema.org.mx" target="_blank">www.ema.org.mx</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>📋 CONAMER</h4>
+          <p><strong>Comisión Nacional de Mejora Regulatoria</strong></p>
+          <ul>
+            <li>Revisa anteproyectos de NOM</li>
+            <li>Dictamina sobre impacto regulatorio</li>
+            <li>Consulta pública de normas</li>
+            <li>Mejora regulatoria</li>
+          </ul>
+          <p><strong>Web:</strong> <a href="https://www.gob.mx/conamer" target="_blank">www.gob.mx/conamer</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>🛡️ PROFECO</h4>
+          <p><strong>Procuraduría Federal del Consumidor</strong></p>
+          <ul>
+            <li>Vigilancia de cumplimiento de NOM</li>
+            <li>Protección al consumidor</li>
+            <li>Verificación de instrumentos de medición</li>
+            <li>Sanciones por incumplimiento</li>
+          </ul>
+          <p><strong>Web:</strong> <a href="https://www.gob.mx/profeco" target="_blank">www.gob.mx/profeco</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>📚 DGN</h4>
+          <p><strong>Dirección General de Normas</strong></p>
+          <ul>
+            <li>Administra el Catálogo Mexicano de Normas</li>
+            <li>Coordina comités de normalización</li>
+            <li>Publica normas en el DOF</li>
+            <li>Atención a consultas técnicas</li>
+          </ul>
+          <p><strong>Web:</strong> Parte de la Secretaría de Economía</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🌍 Organismos Internacionales</h3>
+      
+      <div class="grid-2">
+        <div class="mini-card">
+          <h4>🌐 ISO</h4>
+          <p><strong>International Organization for Standardization</strong></p>
+          <ul>
+            <li>Desarrolla normas internacionales</li>
+            <li>Facilita el comercio mundial</li>
+            <li>Más de 24,000 normas publicadas</li>
+            <li>165 países miembros</li>
+          </ul>
+          <p><strong>México participa a través de:</strong> DGN (miembro pleno)</p>
+          <p><strong>Web:</strong> <a href="https://www.iso.org" target="_blank">www.iso.org</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>⚡ IEC</h4>
+          <p><strong>International Electrotechnical Commission</strong></p>
+          <ul>
+            <li>Normas para sector eléctrico y electrónico</li>
+            <li>Complementa a ISO</li>
+            <li>Evaluación de conformidad</li>
+            <li>Seguridad eléctrica</li>
+          </ul>
+          <p><strong>Web:</strong> <a href="https://www.iec.ch" target="_blank">www.iec.ch</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>⚖️ BIPM</h4>
+          <p><strong>Bureau International des Poids et Mesures</strong></p>
+          <ul>
+            <li>Oficina Internacional de Pesas y Medidas</li>
+            <li>Mantiene el Sistema Internacional (SI)</li>
+            <li>Coordina metrología mundial</li>
+            <li>Comparaciones internacionales</li>
+          </ul>
+          <p><strong>México es Estado Miembro</strong></p>
+          <p><strong>Web:</strong> <a href="https://www.bipm.org" target="_blank">www.bipm.org</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>🔬 ILAC</h4>
+          <p><strong>International Laboratory Accreditation Cooperation</strong></p>
+          <ul>
+            <li>Cooperación internacional de acreditación</li>
+            <li>Acuerdos de reconocimiento mutuo (MRA)</li>
+            <li>Armonización de criterios</li>
+            <li>Facilita comercio internacional</li>
+          </ul>
+          <p><strong>ema es miembro signatario</strong></p>
+          <p><strong>Web:</strong> <a href="https://www.ilac.org" target="_blank">www.ilac.org</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>✅ IAF</h4>
+          <p><strong>International Accreditation Forum</strong></p>
+          <ul>
+            <li>Acreditación de organismos de certificación</li>
+            <li>Acuerdos multilaterales (MLA)</li>
+            <li>Sistemas de gestión</li>
+            <li>Certificación de producto</li>
+          </ul>
+          <p><strong>Web:</strong> <a href="https://www.iaf.nu" target="_blank">www.iaf.nu</a></p>
+        </div>
+        
+        <div class="mini-card">
+          <h4>🌎 COPANT</h4>
+          <p><strong>Comisión Panamericana de Normas Técnicas</strong></p>
+          <ul>
+            <li>Normalización en América</li>
+            <li>Cooperación regional</li>
+            <li>Armonización de normas</li>
+            <li>Apoyo a países en desarrollo</li>
+          </ul>
+          <p><strong>Web:</strong> <a href="https://www.copant.org" target="_blank">www.copant.org</a></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="info-box">
+      <h4>🔗 Relación entre Organismos:</h4>
+      <div class="diagram">
+        <div style="text-align: center; margin: 20px 0;">
+          <div class="flow-item" style="display: inline-block; margin: 5px;">BIPM → Define el SI</div>
+          <div class="flow-item" style="display: inline-block; margin: 5px;">ISO/IEC → Normas internacionales</div>
+        </div>
+        <div class="arrow">↓</div>
+        <div style="text-align: center; margin: 20px 0;">
+          <div class="flow-item" style="display: inline-block; margin: 5px;">CENAM → Patrones nacionales</div>
+          <div class="flow-item" style="display: inline-block; margin: 5px;">SE/DGN → Normas nacionales</div>
+        </div>
+        <div class="arrow">↓</div>
+        <div style="text-align: center; margin: 20px 0;">
+          <div class="flow-item" style="display: inline-block; margin: 5px;">ema → Acreditación</div>
+        </div>
+        <div class="arrow">↓</div>
+        <div style="text-align: center; margin: 20px 0;">
+          <div class="flow-item" style="display: inline-block; margin: 5px;">Laboratorios</div>
+          <div class="flow-item" style="display: inline-block; margin: 5px;">Organismos de Certificación</div>
+        </div>
+        <div class="arrow">↓</div>
+        <div style="text-align: center; margin: 20px 0;">
+          <div class="flow-item" style="display: inline-block; margin: 5px;">Industria y Comercio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13: CONCLUSIONES Y RECOMENDACIONES -->
+<section class="slide" data-slide="13">
+  <div class="slide-content">
+    <h1 class="slide-title">✅ Conclusiones y Recomendaciones</h1>
+    
+    <div class="card">
+      <h3>🎯 Conclusiones Generales</h3>
+      <div class="grid-2">
+        <div>
+          <h4>Sobre Normalización:</h4>
+          <ol style="line-height: 2;">
+            <li>La normalización es fundamental para el desarrollo industrial y comercial de México</li>
+            <li>Las NOM protegen la salud, seguridad y medio ambiente de manera obligatoria</li>
+            <li>Las NMX promueven la calidad y competitividad de forma voluntaria</li>
+            <li>El marco legal mexicano es robusto y comparable con estándares internacionales</li>
+            <li>La normalización facilita el comercio nacional e internacional</li>
+          </ol>
+        </div>
+        <div>
+          <h4>Sobre Metrología:</h4>
+          <ol style="line-height: 2;">
+            <li>La metrología es la base del control de calidad industrial</li>
+            <li>La trazabilidad metrológica garantiza la confiabilidad de las mediciones</li>
+            <li>La calibración periódica de equipos es esencial</li>
+            <li>La acreditación demuestra competencia técnica de laboratorios</li>
+            <li>La metrología legal protege al consumidor en transacciones comerciales</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>💡 Recomendaciones para Empresas</h3>
+      
+      <div class="success-box">
+        <h4>📋 Cumplimiento Normativo:</h4>
+        <ul>
+          <li><strong>Identificar NOM aplicables</strong> a sus productos, procesos o servicios</li>
+          <li><strong>Mantener actualizado</strong> el conocimiento de normas vigentes</li>
+          <li><strong>Capacitar al personal</strong> en requisitos normativos</li>
+          <li><strong>Documentar cumplimiento</strong> mediante registros y evidencias</li>
+          <li><strong>Consultar con expertos</strong> cuando sea necesario</li>
+        </ul>
+      </div>
+      
+      <div class="success-box">
+        <h4>📏 Gestión Metrológica:</h4>
+        <ul>
+          <li><strong>Implementar un sistema de gestión de mediciones</strong> según ISO 10012</li>
+          <li><strong>Mantener un inventario actualizado</strong> de equipos de medición</li>
+          <li><strong>Establecer un programa de calibración</strong> con frecuencias adecuadas</li>
+          <li><strong>Usar laboratorios acreditados</strong> por ema para calibraciones</li>
+          <li><strong>Capacitar al personal</strong> en uso correcto de instrumentos</li>
+          <li><strong>Documentar procedimientos</strong> de medición</li>
+        </ul>
+      </div>
+      
+      <div class="success-box">
+        <h4>✅ Certificación y Acreditación:</h4>
+        <ul>
+          <li><strong>Considerar certificación ISO 9001</strong> como base de calidad</li>
+          <li><strong>Evaluar necesidad de certificaciones específicas</strong> del sector</li>
+          <li><strong>Si tiene laboratorio, buscar acreditación</strong> ISO/IEC 17025</li>
+          <li><strong>Participar en programas de ensayos de aptitud</strong></li>
+          <li><strong>Mantener mejora continua</strong> del sistema de gestión</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🎓 Recomendaciones para Estudiantes de Ingeniería</h3>
+      <div class="grid-2">
+        <div class="mini-card">
+          <h4>📚 Conocimiento Técnico:</h4>
+          <ul>
+            <li>Estudiar normas aplicables a su área</li>
+            <li>Comprender fundamentos de metrología</li>
+            <li>Aprender a leer certificados de calibración</li>
+            <li>Conocer el Sistema Internacional de Unidades</li>
+            <li>Entender conceptos de incertidumbre</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>💼 Desarrollo Profesional:</h4>
+          <ul>
+            <li>Buscar certificaciones profesionales</li>
+            <li>Participar en comités de normalización</li>
+            <li>Realizar prácticas en laboratorios</li>
+            <li>Asistir a cursos y seminarios</li>
+            <li>Mantenerse actualizado</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🔮 Tendencias Futuras</h3>
+      <div class="info-box">
+        <h4>Hacia dónde va la Normalización y Metrología:</h4>
+        <ul>
+          <li><strong>Digitalización:</strong> Certificados digitales, blockchain para trazabilidad</li>
+          <li><strong>Industria 4.0:</strong> Integración de metrología en sistemas IoT</li>
+          <li><strong>Inteligencia Artificial:</strong> Análisis predictivo de calibraciones</li>
+          <li><strong>Sostenibilidad:</strong> Normas enfocadas en economía circular</li>
+          <li><strong>Globalización:</strong> Mayor armonización internacional de normas</li>
+          <li><strong>Nuevas tecnologías:</strong> Normas para vehículos autónomos, impresión 3D, nanotecnología</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="card" style="background: linear-gradient(135deg, rgba(100, 150, 250, 0.1), rgba(0, 212, 170, 0.1)); border: 2px solid var(--primary);">
+      <h3 style="text-align: center; font-size: 2rem;">🎓 Mensaje Final</h3>
+      <p style="text-align: center; font-size: 1.2rem; line-height: 2; margin-top: 20px;">
+        La normalización y la metrología son pilares fundamentales de la ingeniería moderna. 
+        <br><br>
+        <strong>Como futuros ingenieros, tienen la responsabilidad de:</strong>
+        <br><br>
+        ✓ Garantizar la calidad en sus procesos<br>
+        ✓ Proteger la seguridad de las personas<br>
+        ✓ Contribuir al desarrollo sustentable<br>
+        ✓ Facilitar el comercio justo<br>
+        ✓ Impulsar la innovación tecnológica
+        <br><br>
+        <span style="color: var(--primary); font-weight: 700;">
+          "Lo que no se mide, no se puede mejorar"<br>
+          - Lord Kelvin
+        </span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 14: REFERENCIAS Y RECURSOS -->
+<section class="slide" data-slide="14">
+  <div class="slide-content">
+    <h1 class="slide-title">📚 Referencias y Recursos Adicionales</h1>
+    
+    <div class="card">
+      <h3>📖 Bibliografía Principal</h3>
+      <ol style="line-height: 2.5;">
+        <li><strong>Ley Federal sobre Metrología y Normalización</strong> (LFMN). Diario Oficial de la Federación, última reforma 1 de julio de 2020.</li>
+        <li><strong>Reglamento de la Ley Federal sobre Metrología y Normalización</strong>. Diario Oficial de la Federación, 14 de enero de 1999.</li>
+        <li><strong>ISO/IEC 17025:2017</strong> - Requisitos generales para la competencia de los laboratorios de ensayo y calibración.</li>
+        <li><strong>ISO 9001:2015</strong> - Sistemas de gestión de la calidad - Requisitos.</li>
+        <li><strong>ISO 10012:2003</strong> - Sistemas de gestión de las mediciones - Requisitos para los procesos de medición y los equipos de medición.</li>
+        <li><strong>ISO/IEC Guide 99:2007</strong> - Vocabulario Internacional de Metrología (VIM).</li>
+        <li><strong>NOM-008-SCFI-2002</strong> - Sistema General de Unidades de Medida.</li>
+      </ol>
+    </div>
+    
+    <div class="card">
+      <h3>🌐 Sitios Web Oficiales</h3>
+      <div class="grid-2">
+        <div>
+          <h4>🇲🇽 Nacionales:</h4>
+          <ul style="line-height: 2;">
+            <li><strong>Secretaría de Economía:</strong><br><a href="https://www.gob.mx/se" target="_blank">www.gob.mx/se</a></li>
+            <li><strong>CENAM:</strong><br><a href="https://www.cenam.mx" target="_blank">www.cenam.mx</a></li>
+            <li><strong>ema:</strong><br><a href="https://www.ema.org.mx" target="_blank">www.ema.org.mx</a></li>
+            <li><strong>CONAMER:</strong><br><a href="https://www.gob.mx/conamer" target="_blank">www.gob.mx/conamer</a></li>
+            <li><strong>PROFECO:</strong><br><a href="https://www.gob.mx/profeco" target="_blank">www.gob.mx/profeco</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>🌍 Internacionales:</h4>
+          <ul style="line-height: 2;">
+            <li><strong>ISO:</strong><br><a href="https://www.iso.org" target="_blank">www.iso.org</a></li>
+            <li><strong>BIPM:</strong><br><a href="https://www.bipm.org" target="_blank">www.bipm.org</a></li>
+            <li><strong>ILAC:</strong><br><a href="https://www.ilac.org" target="_blank">www.ilac.org</a></li>
+            <li><strong>IAF:</strong><br><a href="https://www.iaf.nu" target="_blank">www.iaf.nu</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>🔍 Consulta de Normas</h3>
+      <div class="info-box">
+        <h4>📋 Catálogo de Normas:</h4>
+        <ul>
+          <li><strong>Catálogo Mexicano de Normas:</strong><br>
+          <a href="https://www.gob.mx/se/acciones-y-programas/normalizacion-catalogo-mexicano-de-normas" target="_blank">Portal de la Secretaría de Economía</a></li>
+          <li><strong>Normas ISO:</strong><br>
+          <a href="https://www.iso.org/standards.html" target="_blank">www.iso.org/standards</a></li>
+          <li><strong>Consulta de NOM vigentes:</strong><br>
+          CONAMER - Sistema de consulta de normas</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3>📱 Recursos Adicionales</h3>
+      <div class="grid-3">
+        <div class="mini-card">
+          <h4>📹 Videos Educativos</h4>
+          <ul>
+            <li>Canal de YouTube CENAM</li>
+            <li>Canal ISO Official</li>
+            <li>Webinars de ema</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>📄 Documentos</h4>
+          <ul>
+            <li>Guías técnicas de CENAM</li>
+            <li>Políticas de ema</li>
+            <li>Manuales de aplicación de normas</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>🎓 Capacitación</h4>
+          <ul>
+            <li>Cursos en línea CENAM</li>
+            <li>Diplomados en metrología</li>
+            <li>Talleres de normalización</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="success-box" style="margin-top: 30px;">
+      <h3 style="text-align: center;">📧 Contactos Importantes</h3>
+      <div class="grid-2" style="margin-top: 20px;">
+        <div>
+          <h4>CENAM</h4>
+          <p>Tel: +52 (442) 211 0500<br>
+          Correo: info@cenam.mx<br>
+          Dirección: El Marqués, Querétaro</p>
+        </div>
+        <div>
+          <h4>ema</h4>
+          <p>Tel: +52 (55) 5611 9878<br>
+          Correo: ema@ema.org.mx<br>
+          Dirección: CDMX</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card" style="background: linear-gradient(120deg, #b56c13 0%, #e39a27 25%, #5ca8eb 70%, #a7d3f9 100%); color: white; text-align: center; padding: 40px;">
+      <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: white;">¡Gracias por su Atención!</h2>
+      <p style="font-size: 1.3rem; line-height: 2;">
+        <strong>Universidad del SABES</strong><br>
+        Metrología e Instrumentación<br>
+        Unidad II: Normalización
+      </p>
+      <p style="font-size: 1.1rem; margin-top: 30px; opacity: 0.9;">
+        Este material ha sido preparado como guía de estudio<br>
+        para las presentaciones verbales de los equipos
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<nav class="nav-controls">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+    ◄ Anterior
+  </button>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+    Siguiente ►
+  </button>
+</nav>
+
+<script>
+let currentSlide = 1;
+const totalSlides = document.querySelectorAll('.slide').length;
+
+// Datos de los equipos
+const teamsData = {
+  team1: {
+    name: "Equipo 1",
+    color: "#ef4444",
+    moderator: "",
+    members: [
+      "Juana Griselda Anguiano Calvillo",
+      "Deniel de Haro Segura",
+      "Cenobio García Romero",
+      "Fátima Hernández Villegas",
+      "Eymi Joselin Lucio Rodríguez"
+    ]
+  },
+  team2: {
+    name: "Equipo 2",
+    color: "#f59e0b",
+    moderator: "",
+    members: [
+      "Juan Soledad Machuca Hernández",
+      "Mayra Jazmín Medellín Márquez",
+      "Luis Ernesto Mejía Banda",
+      "Perla del Carmen Mejía Cano",
+      "Sandy Mendoza Flores"
+    ]
+  },
+  team3: {
+    name: "Equipo 3",
+    color: "#10b981",
+    moderator: "",
+    members: [
+      "José Manuel Ortiz Chávez",
+      "Luis Alejandro Ortiz Ortiz",
+      "Jorge Armando Pérez Rangel",
+      "Jhonatan Isaac Rocha Salgado",
+      "Daisa Guadalupe Rodríguez García"
+    ]
+  },
+  team4: {
+    name: "Equipo 4",
+    color: "#3b82f6",
+    moderator: "",
+    members: [
+      "Manuel Eduardo Rodríguez García",
+      "Jorge Alberto Rodríguez Padilla",
+      "Edgar Rosales Márquez",
+      "Rosa Isela Vega Correa",
+      "Gemma Yáñez Bernal"
+    ]
+  }
+};
+
+function selectPresentingTeam() {
+  const selector = document.getElementById('teamSelect');
+  const teamId = selector.value;
+  const banner = document.getElementById('teamInfoBanner');
+  const container = document.querySelector('.slides-container');
+  
+  if (teamId === '') {
+    // No hay equipo seleccionado
+    banner.classList.remove('active');
+    container.classList.remove('with-team-banner');
+    return;
+  }
+  
+  const team = teamsData[teamId];
+  
+  // Solicitar nombre del moderador
+  const moderatorName = prompt(`Ingrese el nombre del MODERADOR para ${team.name}:`, '');
+  
+  if (moderatorName === null || moderatorName.trim() === '') {
+    // Usuario canceló o no ingresó nombre
+    selector.value = '';
+    alert('Debe ingresar el nombre del moderador para continuar');
+    return;
+  }
+  
+  team.moderator = moderatorName.trim();
+  
+  // Actualizar banner con información del equipo
+  document.getElementById('teamBadge').textContent = team.name;
+  document.getElementById('teamBadge').style.background = team.color;
+  document.getElementById('teamModerator').textContent = team.moderator;
+  
+  // Crear chips de miembros de forma horizontal compacta
+  const membersContainer = document.getElementById('teamMembersChips');
+  membersContainer.innerHTML = '';
+  team.members.forEach((member, index) => {
+    const chip = document.createElement('div');
+    chip.className = 'team-member-chip';
+    // Extraer primer nombre y apellido paterno
+    const nameParts = member.split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts[nameParts.length - 2] || nameParts[nameParts.length - 1];
+    chip.innerHTML = `<span>👤</span> ${firstName} ${lastName}`;
+    chip.title = member; // Tooltip con nombre completo
+    membersContainer.appendChild(chip);
+  });
+  
+  // Mostrar banner
+  banner.classList.add('active');
+  container.classList.add('with-team-banner');
+  
+  // Guardar selección en localStorage
+  localStorage.setItem('selectedTeam', teamId);
+  localStorage.setItem('moderatorName_' + teamId, team.moderator);
+}
+
+function clearTeamSelection() {
+  if (confirm('¿Desea limpiar la selección del equipo presentador?')) {
+    document.getElementById('teamSelect').value = '';
+    document.getElementById('teamInfoBanner').classList.remove('active');
+    document.querySelector('.slides-container').classList.remove('with-team-banner');
+    localStorage.removeItem('selectedTeam');
+  }
+}
+
+function changeSlide(direction) {
+  const slides = document.querySelectorAll('.slide');
+  slides[currentSlide - 1].classList.remove('active');
+  
+  currentSlide += direction;
+  
+  if (currentSlide < 1) currentSlide = 1;
+  if (currentSlide > totalSlides) currentSlide = totalSlides;
+  
+  slides[currentSlide - 1].classList.add('active');
+  slides[currentSlide - 1].scrollTop = 0;
+  
+  updateProgress();
+  updateNavigationButtons();
+}
+
+function updateProgress() {
+  const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+  document.getElementById('progressFill').style.width = progress + '%';
+  document.getElementById('currentSlide').textContent = currentSlide;
+  document.getElementById('totalSlides').textContent = totalSlides;
+}
+
+function updateNavigationButtons() {
+  document.getElementById('prevBtn').disabled = currentSlide === 1;
+  document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', newTheme);
+  document.getElementById('themeIcon').textContent = newTheme === 'light' ? '🌙' : '☀️';
+  localStorage.setItem('theme', newTheme);
+}
+
+function resetPresentation() {
+  if (confirm('¿Reiniciar presentación desde el inicio?')) {
+    const slides = document.querySelectorAll('.slide');
+    slides.forEach(slide => slide.classList.remove('active'));
+    currentSlide = 1;
+    slides[0].classList.add('active');
+    updateProgress();
+    updateNavigationButtons();
+  }
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+// Inicialización
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+document.getElementById('themeIcon').textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+// Restaurar selección de equipo si existe
+const savedTeam = localStorage.getItem('selectedTeam');
+if (savedTeam) {
+  const savedModerator = localStorage.getItem('moderatorName_' + savedTeam);
+  if (savedModerator) {
+    teamsData[savedTeam].moderator = savedModerator;
+    document.getElementById('teamSelect').value = savedTeam;
+    
+    const team = teamsData[savedTeam];
+    document.getElementById('teamBadge').textContent = team.name;
+    document.getElementById('teamBadge').style.background = team.color;
+    document.getElementById('teamModerator').textContent = team.moderator;
+    
+    const membersContainer = document.getElementById('teamMembersChips');
+    membersContainer.innerHTML = '';
+    team.members.forEach(member => {
+      const chip = document.createElement('div');
+      chip.className = 'team-member-chip';
+      const nameParts = member.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts[nameParts.length - 2] || nameParts[nameParts.length - 1];
+      chip.innerHTML = `<span>👤</span> ${firstName} ${lastName}`;
+      chip.title = member;
+      membersContainer.appendChild(chip);
+    });
+    
+    document.getElementById('teamInfoBanner').classList.add('active');
+    document.querySelector('.slides-container').classList.add('with-team-banner');
+  }
+}
+
+updateNavigationButtons();
+updateProgress();
+
+// Navegación con teclado
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') changeSlide(-1);
+  if (e.key === 'ArrowRight') changeSlide(1);
+  if (e.key === 'Home') { currentSlide = 1; changeSlide(0); }
+  if (e.key === 'End') { currentSlide = totalSlides; changeSlide(0); }
+});
+
+console.log('✅ Presentación cargada con', totalSlides, 'diapositivas');
+console.log('📚 Material completo de estudio disponible');
+console.log('👥 Sistema de selección de equipos activado');
+</script>
+</body>
+</html>
